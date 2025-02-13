@@ -12,9 +12,9 @@ Search Feature: Only shows artists/jobs with key words.
 
 Commission Process:
 
-   File Management: Artists and Clients share a Google folder for each commission
+* File Management: Artists and Clients share a Google folder for each commission
    
-   Payment: Payment is done through a PayPal integration into the website
+* Payment: Payment is done through a PayPal integration into the website
 
 ## Getting Started
 
