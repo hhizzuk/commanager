@@ -1,10 +1,15 @@
-# Project Title
+# Commission Manager
 
-Commission Manager: centralizing the commissioning and advertising process
+Centralizing the commissioning and advertising process for artists and clients.
 
-## Description
+## Description -- to be edited
 
-An in-depth paragraph about your project and overview of use.
+User Profile: Each artist has a list of commission options, a status, and a rating. Each client has a list of job postings/open jobs and a rating.
+Explore Feed: Shows artists/jobs based on both novelty and popularity.
+Search Feature: Only shows artists/jobs with key words.
+Commission Process:
+   File Management: Artists and Clients share a Google folder for each commission
+   Payment: Payment is done through a PayPal integration into the website
 
 ## Getting Started
 
