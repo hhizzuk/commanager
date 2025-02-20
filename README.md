@@ -23,14 +23,28 @@ Commission Process:
 * Describe any prerequisites, libraries, OS version, etc., needed before installing program.
 * ex. Windows 10
 
-### Installing
+### Install Required Tools
 
 * Download latest LTS version from [Node.js Official Site](https://nodejs.org/en)
 * Install Firebase CLI for mangaging authentication, etc. 
 ```
 npm install -g firebase-tools
 ```
-
+### Install Dependencies 
+* Frontend Folder Dependencies
+```
+cd frontend
+```
+```
+npm install react next axios tailwindcss postcss autoprefixer firebase socket.io-client
+```
+* Backend Folder Dependencies
+```
+cd backend
+```
+```
+npm install express cors dotenv firebase-admin socket.io @paypal/checkout-server-sdk googleapis multer
+```
 ### Executing program
 
 * How to run the program
