@@ -43,7 +43,7 @@ npm install react next axios tailwindcss postcss autoprefixer firebase socket.io
 cd backend
 ```
 ```
-npm install express cors dotenv firebase-admin socket.io @paypal/checkout-server-sdk googleapis multer
+npm install express cors dotenv firebase-admin socket.io @paypal/paypal-server-sdk googleapis multer
 ```
 ### Executing program
 
