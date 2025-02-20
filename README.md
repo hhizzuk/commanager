@@ -25,8 +25,11 @@ Commission Process:
 
 ### Installing
 
-* How/where to download your program
-* Any modifications needed to be made to files/folders
+* Download latest LTS version from [Node.js Official Site](https://nodejs.org/en)
+* Install Firebase CLI for mangaging authentication, etc. 
+```
+npm install -g firebase-tools
+```
 
 ### Executing program
 
