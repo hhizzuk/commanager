@@ -36,21 +36,31 @@ npm install -g firebase-tools
 cd frontend
 ```
 ```
-npm install react next axios tailwindcss postcss autoprefixer firebase socket.io-client
+npm install tailwindcss postcss autoprefixer axios react-icons socket.io-client firebase
 ```
+
 * Backend Folder Dependencies
 ```
 cd backend
 ```
 ```
-npm install express cors dotenv firebase-admin socket.io @paypal/paypal-server-sdk googleapis multer
+npm install express cors dotenv firebase-admin socket.io paypal-rest-sdk
+```
+### Google Drive API
+* Go to Google Cloud console
+* Enable Google Drive API
+* Get OAuth credentials
+* Download credentials.json and place in backend/
+* Install Required libaries
+```
+npm install googleapis
+
 ```
 ### Executing program
 
-* How to run the program
-* Step-by-step bullets
+* Run development Server
 ```
-code blocks for commands
+npm run dev
 ```
 
 ## Help
