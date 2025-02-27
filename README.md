@@ -46,6 +46,12 @@ cd backend
 ```
 npm install express cors dotenv firebase-admin socket.io paypal-rest-sdk
 ```
+
+* Get node modules in .gitignore file
+```
+npm install
+``
+
 ### Google Drive API
 * Go to Google Cloud console
 * Enable Google Drive API
