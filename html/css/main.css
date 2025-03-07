@@ -49,12 +49,12 @@ a:hover {
     text-transform: uppercase;
     background: #18A0FB;
     color: white;
-    width: 153px;
     height: 44px;
     border-radius: 45px;
-    display: flex;
+    display: inline-flex; /* Change from flex to inline-flex */
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    padding: 0 20px; /* Horizontal padding for text spacing */
     margin: 20px auto;
 }

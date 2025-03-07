@@ -17,6 +17,17 @@ body {
     background: white;
 }
 
+/* Container to place name inputs side by side */
+.name-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px; /* Optional: adds some space between the inputs */
+}
+
+.name-container input {
+    width: 44%; /* Makes each input take up nearly half the width */
+} 
+
 /* Form Inputs and Select */
 input, select {
     width: 90%;
