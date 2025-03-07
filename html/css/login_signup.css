@@ -1,0 +1,57 @@
+/* Centering the Login Box */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Login Box */
+.Login_SignUp {
+    width: 732px;
+    border-radius: 45px;
+    border: 1px rgba(0, 0, 0, 0.50) solid;
+    padding: 40px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    background: white;
+}
+
+/* Form Inputs and Select */
+input, select {
+    width: 90%;
+    height: 44px;
+    border-radius: 45px;
+    border: 1px solid rgba(0, 0, 0, 0.50);
+    padding: 0 15px;
+    margin: 10px 0;
+    font-size: 15px;
+    appearance: none; /* Removes default dropdown styles */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    cursor: pointer;
+    position: relative;
+}
+
+/* Select Wrapper for Custom Dropdown Styling */
+.select-wrapper {
+    position: relative;
+    width: 90%;  
+    margin: 10px auto;
+}
+
+/* Adjust the select box to fill the entire width */
+.select-wrapper select {
+    width: 100%;  /* Set select box to be full width */
+    background: url('data:image/svg+xml,%3Csvg%20xmlns%3D"http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg"%20viewBox%3D"0%200%2048%2048"%20width%3D"16"%20height%3D"16"%3E%3Cpath%20d%3D"M12%2020L24%2032L36%2020H12Z"%20fill%3D"rgba(0%2C%200%2C%200%2C%200.5)"%2F%3E%3C%2Fsvg%3E') no-repeat scroll right 15px center;
+    background-size: 30px;
+    background-position: right center;
+}
+
+
+/* New User Text */
+.switch {
+    font-size: 15px;
+    color: rgba(0, 0, 0, 0.80);
+    margin-top: 10px;
+}
