@@ -17,7 +17,10 @@ Commission Process:
 * Payment: Payment is done through a PayPal integration into the website
 
 ## Getting Started
-
+### Credentials
+* Paypal
+Client ID: ATFxo_K5mJsIVmXH_nAz0BG0f44JXTBHWIdkaEv58ZxNoq40xIPkrnNkVWjIDOMkFwue6NL3fH15iujD
+Secret Key: ED4M7JaWIEV2lU8d4lFVfMKIg3eR0nep0GhoC0rcYbcCL2q8JkQKPwGDooFJfzx8tuZyPK7VA-yHzkMR  
 ### Dependencies
 
 * Describe any prerequisites, libraries, OS version, etc., needed before installing program.
@@ -30,38 +33,7 @@ Commission Process:
 ```
 npm install -g firebase-tools
 ```
-### Install Dependencies 
-* Frontend Folder Dependencies
-```
-cd frontend
-```
-```
-npm install tailwindcss postcss autoprefixer axios react-icons socket.io-client firebase
-```
 
-* Backend Folder Dependencies
-```
-cd backend
-```
-```
-npm install express cors dotenv firebase-admin socket.io paypal-rest-sdk
-```
-
-* Get node modules in .gitignore file
-```
-npm install
-``
-
-### Google Drive API
-* Go to Google Cloud console
-* Enable Google Drive API
-* Get OAuth credentials
-* Download credentials.json and place in backend/
-* Install Required libaries
-```
-npm install googleapis
-
-```
 ### Executing program
 
 * Run development Server
