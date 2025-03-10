@@ -20,6 +20,7 @@ Commission Process:
 ### Credentials
 * Paypal
 Client ID: ATFxo_K5mJsIVmXH_nAz0BG0f44JXTBHWIdkaEv58ZxNoq40xIPkrnNkVWjIDOMkFwue6NL3fH15iujD
+
 Secret Key: ED4M7JaWIEV2lU8d4lFVfMKIg3eR0nep0GhoC0rcYbcCL2q8JkQKPwGDooFJfzx8tuZyPK7VA-yHzkMR  
 ### Dependencies
 
