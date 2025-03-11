@@ -1,214 +1,101 @@
+/* Home Page Styles */
+
 .container {
-  width: 1280px;
-  height: 1483px;
-  position: relative;
-  background: white;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
-.header {
-  width: 1280px;
-  height: 109px;
-  left: 0;
-  top: 0;
-  position: absolute;
-  background: white;
+.main-content {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 columns */
+  gap: 20px;
+  padding: 20px;
 }
 
-.logo {
-  width: 122.07px;
-  height: 32px;
-  left: 48px;
-  top: 39px;
-  position: absolute;
+/* Responsive Grid */
+@media (max-width: 1024px) {
+  .main-content {
+      grid-template-columns: repeat(2, 1fr); /* 2 columns on medium screens */
+  }
 }
 
-.logo-text {
-  width: 87.70px;
-  height: 32px;
-  left: 34.37px;
-  top: 0;
-  position: absolute;
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: black;
-  font-size: 28.44px;
-  font-family: Comfortaa;
-  font-weight: 400;
-}
-
-.discover, .commission {
-  left: 197px;
-  top: 43px;
-  position: absolute;
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #18A0FB;
-  font-size: 20px;
-  font-family: Montserrat;
-  font-weight: 500;
+@media (max-width: 768px) {
+  .main-content {
+      grid-template-columns: repeat(1, 1fr); /* 1 column on small screens */
+  }
 }
 
 .search-bar {
-  width: 362px;
-  height: 54px;
-  left: 480px;
-  top: 26px;
-  position: absolute;
+  display: flex;
+  align-items: center;
+  background: #eee;
+  padding: 5px 15px;
+  border-radius: 20px;
 }
 
 .search-box {
-  width: 670px;
-  height: 54px;
-  left: 0;
-  top: 0;
-  position: absolute;
-  border-radius: 26px;
-  border: 1px #2C1839 solid;
-}
-
-.search-text {
-  width: 87px;
-  left: 22px;
-  top: 15px;
-  position: absolute;
-  color: #2C1839;
-  font-size: 20px;
-  font-family: Instrument Sans;
-  font-weight: 400;
-}
-
-.icon {
-  width: 24.24px;
-  height: 22.50px;
-  left: 1107px;
-  top: 42px;
-  position: absolute;
-  background: black;
+  width: 200px;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 14px;
 }
 
 .avatar {
-  width: 54px;
-  height: 54px;
-  left: 1190px;
-  top: 26px;
-  position: absolute;
-  background: linear-gradient(0deg, 0%, 100%), linear-gradient(180deg, #806A6A 0%, #665654 100%);
-  border-radius: 100px;
-  overflow: hidden;
+  width: 40px;
+  height: 40px;
+  background-color: gray;
+  border-radius: 50%;
 }
 
-.avatar-inner {
-  width: 43.20px;
-  height: 49.20px;
-  left: 5.40px;
-  top: 5.40px;
-  position: absolute;
-}
-
-.avatar-body {
-  width: 20.96px;
-  height: 28.20px;
-  left: 11.88px;
-  top: 7.63px;
-  position: absolute;
-  background: linear-gradient(180deg, #E6864E 0%, #EB965E 100%);
-}
-
-.avatar-shade {
-  width: 6.30px;
-  height: 4.32px;
-  left: 20.88px;
-  top: 23.76px;
-  position: absolute;
-  background: #DB6F3D;
-}
-
-/* Main content styles */
 .main-content {
-  width: 1280px;
-  height: 834px;
-  left: 0;
-  top: 232px;
-  position: absolute;
-  background: white;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px;
 }
 
 .commission-card {
-  width: 290px;
-  height: 241px;
-  left: 24px;
-  top: 24px;
-  position: absolute;
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  width: 250px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;
+}
+
+.commission-card:hover {
+  transform: translateY(-5px);
 }
 
 .commission-image {
-  width: 290px;
-  height: 185px;
-  left: 0;
-  top: 0;
-  position: absolute;
-  background: #E5E5E5;
-  border: 1px rgba(0, 0, 0, 0.30) solid;
+  height: 150px;
+  background: #ccc;
+  border-radius: 10px;
 }
 
 .avatar-card {
-  width: 50px;
-  height: 50px;
-  left: 0;
-  top: 191px;
-  position: absolute;
-  background: linear-gradient(0deg, 0%, 100%), linear-gradient(180deg, #806A6A 0%, #665654 100%);
-  border-radius: 100px;
-  overflow: hidden;
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
 }
 
 .avatar-inner-card {
-  width: 34.61px;
-  height: 44.07px;
-  left: 7.55px;
-  top: 6.43px;
-  position: absolute;
-}
-
-.avatar-body-card {
-  width: 30.52px;
-  height: 38.07px;
-  left: 0;
-  top: 0;
-  position: absolute;
-  background: white;
-}
-
-.avatar-shade-card {
-  width: 34.33px;
-  height: 18.83px;
-  left: 0.28px;
-  top: 25.24px;
-  position: absolute;
-  background: linear-gradient(0deg, #FFC9B3 0%, #FFD2C2 100%);
+  width: 40px;
+  height: 40px;
+  background-color: gray;
+  border-radius: 50%;
 }
 
 .commission-title {
-  left: 62px;
-  top: 200px;
-  position: absolute;
-  color: black;
-  font-size: 16px;
-  font-family: Instrument Sans;
-  font-weight: 700;
+  font-weight: bold;
+  margin-top: 10px;
+  color: #333;
 }
 
 .username {
-  left: 62px;
-  top: 222px;
-  position: absolute;
-  color: black;
-  font-size: 12px;
-  font-family: Instrument Sans;
-  font-weight: 400;
+  color: #666;
+  font-size: 14px;
 }
-  
