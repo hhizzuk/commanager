@@ -99,3 +99,42 @@
   color: #666;
   font-size: 14px;
 }
+
+.profile-menu {
+  display: none;
+  position: absolute;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  z-index: 1000;
+}
+
+.profile-menu.active {
+  display: block;
+}
+
+.profile-menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.profile-menu li {
+  padding: 8px 15px;
+  cursor: pointer;
+}
+
+.profile-menu li:hover {
+  background-color: #f0f0f0;
+}
+
+.profile-menu a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.profile-menu a:hover {
+  color: #555;
+}

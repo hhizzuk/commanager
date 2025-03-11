@@ -18,6 +18,38 @@
         <input type="text" class="search-box" placeholder="Search">
     </div>
     <div class="avatar"></div>
+  <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const avatar = document.querySelector(".avatar");
+    const profileMenu = document.createElement("div");
+
+    profileMenu.classList.add("profile-menu");
+    profileMenu.innerHTML = `
+        <ul>
+            <li>Purchases</li>
+            <li>Messages</li>
+            <li>Settings</li>
+            <li><a href="login.html">Login</li>
+        </ul>
+    `;
+
+    document.body.appendChild(profileMenu);
+
+    avatar.addEventListener("click", (event) => {
+        profileMenu.classList.toggle("active");
+        const { bottom, right } = avatar.getBoundingClientRect();
+        profileMenu.style.top = `${bottom + 10}px`;
+        profileMenu.style.left = `${right - profileMenu.offsetWidth}px`;
+    });
+
+    // Close the menu if clicked outside
+    document.addEventListener("click", (event) => {
+        if (!avatar.contains(event.target) && !profileMenu.contains(event.target)) {
+            profileMenu.classList.remove("active");
+        }
+    });
+});
+</script>
   </div>
     <div class="container">
         <div class="main-content">
