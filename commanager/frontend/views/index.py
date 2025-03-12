@@ -5,11 +5,10 @@ URLs include:
 /
 """
 import flask
-import arrow
-import insta485
+import commanager
 
 
-@insta485.app.route('/')
+@commanager.app.route('/')
 def show_index():
     """Display / route."""
     redirect_response, connection, logname = get_connection_and_logname()
