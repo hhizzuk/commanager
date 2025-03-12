@@ -103,5 +103,58 @@
           </div>
         </div>
     </div>
+
+    <div class="popup-overlay" id="popup">
+        <div class="popup-content">
+            <button class="close-btn" id="closePopup">&times;</button>
+            <div class="popup-header">Commission Title</div>
+            <div class="images">
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+            </div>
+            <div class="popup-body">
+                Commission description and details<br/><br/>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor 
+                in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor 
+                in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor 
+                in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.
+                <br><br>
+                <div class="popup-footer">
+                    <button class="request-button">Request</button>
+                </div>
+            </div>
+            
+
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+    const commissionCards = document.querySelectorAll(".commission-card");
+    const popup = document.getElementById("popup");
+    const closePopup = document.getElementById("closePopup");
+
+    commissionCards.forEach(card => {
+        card.addEventListener("click", function () {
+            popup.style.display = "flex";
+        });
+    });
+
+    closePopup.addEventListener("click", function () {
+        popup.style.display = "none";
+    });
+
+    popup.addEventListener("click", function (event) {
+        if (event.target === popup) {
+            popup.style.display = "none";
+        }
+    });
+});
+    </script>
 </body>
 </html>
