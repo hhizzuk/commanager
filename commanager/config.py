@@ -1,4 +1,4 @@
-"""eecs497 development configuration."""
+"""commanager development configuration."""
 
 import os
 

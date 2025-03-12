@@ -1,7 +1,7 @@
-"""eecs497 models."""
+"""commanager models."""
 
 from supabase import create_client, Client
-from config import (SUPABASE_URL, SUPABASE_ANON_KEY,)
+from commanager.config import (SUPABASE_URL, SUPABASE_ANON_KEY,)
 from uuid import uuid4
 
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_ANON_KEY)
