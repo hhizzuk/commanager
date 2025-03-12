@@ -37,21 +37,3 @@ supabase: Client = create_client(SUPABASE_URL, SUPABASE_ANON_KEY)
 #     if response.error:
 #         print(f"supabase error: {response.error}")
 #     return response
-
-# def create_message(sender_id, receiver_id, message_content):
-#     """Creates a new message in the 'messages' table."""
-#     response = (
-#         supabase.table("messages")
-#         .insert(
-#             {
-#                 "sender_id": sender_id,
-#                 "receiver_id": receiver_id,
-#                 "content": message_content,
-#                 "id": str(uuid4()),
-#             }
-#         )
-#         .execute()
-#     )
-#     if response.error:
-#         print(f"supabase error: {response.error}")
-#     return response

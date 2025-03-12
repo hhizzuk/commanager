@@ -17,6 +17,11 @@
     <div class="search-bar">
         <input type="text" class="search-box" placeholder="Search">
     </div>
+    <div class="user">
+        <a href="{{ url_for('user_profile', username=username) }}">
+            <div class="username-text">{{ username }}</div>
+        </a>
+    </div>
     <div class="avatar"></div>
   <script>
   document.addEventListener("DOMContentLoaded", function () {
