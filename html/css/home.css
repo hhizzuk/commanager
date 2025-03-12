@@ -1,5 +1,8 @@
 /* Home Page Styles */
-
+a {
+  text-decoration: none;
+  color: white;
+}
 .container {
   width: 100%;
   max-width: 1200px;
@@ -341,7 +344,12 @@
   border: none;
   color: white;
   cursor: pointer;
+  text-decoration: none;
   font-size: 20px;
+}
+.request-button:hover a{
+  text-decoration: none;
+  color:#ccc;
 }
 
 .close-btn {
