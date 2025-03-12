@@ -8,22 +8,85 @@
     <link rel="stylesheet" href="css/request.css">
 </head>
 <body>
-
     <div class="Login_SignUp">
         <h2>Request Form</h2>
-
-        <div class="name-container">
-            <input type="text" placeholder="First name">
-            <input type="text" placeholder="Last name">
+        
+        <textarea id="message" placeholder="Enter your message here..." rows="6"></textarea>
+        
+        <div class="file-upload">
+            <label for="file-input" class="file-label">Choose File</label>
+            <input type="file" id="file-input">
+            <span class="file-name">No file chosen</span>
         </div>
-        <input type="email" placeholder="Email address">
-        <input type="message" placeholder="Message">
         
         <p class="payment_continue">
-            <div class="Button"><a href="payment.html">Continue</a></div>
+            <div class="Button"><a href="payment.html" id="continue-btn">Continue</a></div>
         </p>
+        <div id="error-message" class="error-message"></div>
     </div>
 
+    <!-- Custom Modal -->
+    <div id="confirmModal" class="modal">
+        <div class="modal-content">
+            <h3>Confirm Submission</h3>
+            <div id="modal-message"></div>
+            <div class="modal-buttons">
+                <button id="confirmBtn" class="modal-button confirm">Continue to Payment</button>
+                <button id="cancelBtn" class="modal-button cancel">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const messageInput = document.getElementById('message');
+        const fileInput = document.getElementById('file-input');
+        const continueBtn = document.getElementById('continue-btn');
+        const errorMessage = document.getElementById('error-message');
+        const modal = document.getElementById('confirmModal');
+        const modalMessage = document.getElementById('modal-message');
+        const confirmBtn = document.getElementById('confirmBtn');
+        const cancelBtn = document.getElementById('cancelBtn');
+
+        fileInput.addEventListener('change', function(e) {
+            const fileName = e.target.files[0] ? e.target.files[0].name : 'No file chosen';
+            document.querySelector('.file-name').textContent = fileName;
+        });
+
+        continueBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            if (!messageInput.value.trim() && !fileInput.files.length) {
+                errorMessage.textContent = 'Please enter a message or upload a file';
+                errorMessage.style.display = 'block';
+                return;
+            }
+            errorMessage.style.display = 'none';
+
+            const messageText = messageInput.value.trim() 
+                ? `<p><strong>Message:</strong> ${messageInput.value}</p>` 
+                : '<p><strong>Message:</strong> No message provided</p>';
+            const fileText = fileInput.files.length 
+                ? `<p><strong>File:</strong> ${fileInput.files[0].name}</p>` 
+                : '<p><strong>File:</strong> No file uploaded</p>';
+            
+            modalMessage.innerHTML = messageText + fileText;
+            modal.style.display = 'flex';
+        });
+
+        confirmBtn.addEventListener('click', function() {
+            window.location.href = 'payment.html';
+        });
+
+        cancelBtn.addEventListener('click', function() {
+            modal.style.display = 'none';
+        });
+
+        // Close modal when clicking outside
+        window.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+    </script>
 </body>
 </html>
  
