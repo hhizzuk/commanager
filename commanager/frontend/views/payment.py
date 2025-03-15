@@ -13,5 +13,5 @@ def process_payment():
     data = flask.request.json
     print("Payment received:", data)
 
-    # could Store payment details in database  (DNE right now)
+    # could Store payment details in database (DNE right now)
     return flask.jsonify({"message": "Payment successful"}), 200

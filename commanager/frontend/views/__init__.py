@@ -1,5 +1,4 @@
 """Views for each web page."""
-"""Views for each web page."""
 from commanager.views.index import show_index
 from commanager.views.users import *
 from commanager.views.posts import *

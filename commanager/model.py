@@ -1,10 +1,19 @@
-"""commanager models."""
+"""commanager model database."""
 
 from supabase import create_client, Client
 from commanager.config import (SUPABASE_URL, SUPABASE_ANON_KEY,)
 from uuid import uuid4
 
-supabase: Client = create_client(SUPABASE_URL, SUPABASE_ANON_KEY)
+
+def get_db():
+    """Open a new database connection.
+    """
+    if not SUPABASE_URL or not SUPABASE_ANON_KEY:
+        raise ValueError("Supabase URL and Key must be set as environment variables.")
+    
+    supabase: Client = create_client(SUPABASE_URL, SUPABASE_ANON_KEY)
+
+    return supabase
 
 # def get_user_by_id(user_id):
 #     """Retrieves a user from the Supabase 'users' table by ID."""
