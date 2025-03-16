@@ -4,6 +4,8 @@ import commanager
 
 
 def login_func(connection):
+    """Login to account."""
+    
     0
 
 
@@ -48,22 +50,22 @@ def logout():
 
 @commanager.app.route('/accounts/', methods=['POST'])
 def update_accounts():
-    connection = commanager.model.get_db()
+    conn = commanager.model.get_db()
     function = flask.request.form.get('function')
     if function == 'login':
-        login_func(connection)
+        login_func(conn)
 
     elif function == 'create':
-        create_func(connection)
+        create_func(conn)
 
     elif function == 'delete':
-        delete_func(connection)
+        delete_func(conn)
 
     elif function == 'edit_account':
-        edit_account_func(connection)
+        edit_account_func(conn)
 
     elif function == 'update_password':
-        update_password_func(connection)
+        update_password_func(conn)
 
     return flask.get_redirect(flask.url_for('show_index'))
 
