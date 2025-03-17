@@ -1,7 +1,7 @@
 """commanager model database."""
 
 from supabase import create_client, Client
-from commanager.config import (SUPABASE_URL, SUPABASE_ANON_KEY,)
+from commanager.server.config import (SUPABASE_URL, SUPABASE_ANON_KEY,)
 from uuid import uuid4
 
 

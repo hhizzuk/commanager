@@ -7,4 +7,4 @@ app.config.from_object('config')
 
 import commanager.api
 import commanager.views
-import commanager.model
+import commanager.server.model
