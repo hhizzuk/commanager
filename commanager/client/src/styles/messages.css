@@ -10,7 +10,7 @@
 }
 
 .messages {
-    height: calc(100vh - 300px);
+    height: calc(100vh - 225px);
     overflow-y: auto;
     border-bottom: 1px solid #ddd;
     margin-bottom: 10px;
@@ -38,5 +38,9 @@ input, button {
 .sidebar{
     width: 250px;
     border-right: 1px solid black;
-    padding-left: 20px;
+    padding: 20px;
+}
+
+.sidebar ul{
+    list-style-type:none;
 }
