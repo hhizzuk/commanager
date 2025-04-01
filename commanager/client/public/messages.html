@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage</title>
+    <link rel="stylesheet" href="../src/styles/main.css">
+    <link rel="stylesheet" href="../src/styles/home.css">
+    <link rel="stylesheet" href="../src/styles/messages.css">
+</head>
+<body>
+  <div class="header">
+    <div class="logo">
+        <div class="logo-text">Logo</div>
+    </div>
+    <div class="discover">Discover</div>
+    <div class="commission">Commission</div>
+    <div class="search-bar">
+        <input type="text" class="search-box" placeholder="Search">
+    </div>
+    <div class="user">
+        <a href="{{ url_for('user_profile', username=username) }}">
+            <div class="username-text">{{ username }}</div>
+        </a>
+    </div>
+    <div class="avatar"></div>
+  <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const avatar = document.querySelector(".avatar");
+    const profileMenu = document.createElement("div");
+
+    profileMenu.classList.add("profile-menu");
+    profileMenu.innerHTML = `
+        <ul>
+            <li><a href="user.html">View Profile</a></li>
+            <li>Purchases</li>
+            <li>Messages</li>
+            <li>Settings</li>
+            <li><a href="login.html">Login</li>
+        </ul>
+    `;
+
+    document.body.appendChild(profileMenu);
+
+    avatar.addEventListener("click", (event) => {
+        profileMenu.classList.toggle("active");
+        const { bottom, right } = avatar.getBoundingClientRect();
+        profileMenu.style.top = `${bottom + 10}px`;
+        profileMenu.style.left = `${right - profileMenu.offsetWidth}px`;
+    });
+
+    // Close the menu if clicked outside
+    document.addEventListener("click", (event) => {
+        if (!avatar.contains(event.target) && !profileMenu.contains(event.target)) {
+            profileMenu.classList.remove("active");
+        }
+    });
+});
+</script>
+</div>
+      </div> <div class="main-container">
+        <div class="sidebar">
+            <h3>Chats</h3>
+            <ul>
+                <li>Chat 1</li>
+                <li>Chat 2</li>
+                <li>Chat 3</li>
+            </ul>
+        </div>
+        
+        <div class="chat-container">
+            <div class="messages" id="chat"></div>
+            <input type="text" id="userInput" placeholder="Type a message...">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+    
+    <script>
+        function sendMessage() {
+            const input = document.getElementById('userInput');
+            const message = input.value.trim();
+            if (message === '') return;
+
+            const chat = document.getElementById('chat');
+            const userMessage = document.createElement('div');
+            userMessage.className = 'message user';
+            userMessage.innerText = message;
+            chat.appendChild(userMessage);
+
+            input.value = '';
+            chat.scrollTop = chat.scrollHeight;
+
+            setTimeout(() => {
+                const botMessage = document.createElement('div');
+                botMessage.className = 'message bot';
+                botMessage.innerText = 'Hello! This is a bot response.';
+                chat.appendChild(botMessage);
+                chat.scrollTop = chat.scrollHeight;
+            }, 1000);
+        }
+    </script>
+</body>
+</html>

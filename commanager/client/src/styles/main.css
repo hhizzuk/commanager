@@ -11,6 +11,8 @@
 
 /* Body Text */
 body {
+    display: flex;
+    flex-direction:column;
     background: #ffffff;
     color: #333; /* Default text color */
     font-size: 16px; /* Default font size */
