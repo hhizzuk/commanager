@@ -52,6 +52,14 @@ a {
   background-color: gray;
   border-radius: 50%;
 }
+.logo-image {
+  width: 75px; /* Adjust size */
+  height: 75px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0; /* Prevent shrinking */
+ 
+}
 
 .main-content {
   display: flex;

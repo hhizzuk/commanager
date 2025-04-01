@@ -1,0 +1,82 @@
+/* Center the settings container */
+.settings-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 30px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Header */
+.settings-header {
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* Form Sections */
+.settings-section {
+    margin-bottom: 20px;
+}
+
+.settings-section h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+/* Inputs */
+.settings-container input {
+    width: 100%;
+    height: 40px;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+/* Save Button */
+.save-button {
+    width: 100%;
+    background-color: #18A0FB;
+    color: white;
+    padding: 12px;
+    font-size: 18px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.save-button:hover {
+    background-color: #007ace;
+}
+
+/* Delete Account Button */
+.delete-button {
+    width: 100%;
+    background-color: #e74c3c;
+    color: white;
+    padding: 12px;
+    font-size: 18px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin-top: 10px;
+}
+
+.delete-button:hover {
+    background-color: #c0392b;
+}
+
+/* Confirmation Warning */
+.delete-warning {
+    font-size: 14px;
+    color: #b00;
+    margin-top: 5px;
+    text-align: center;
+}
