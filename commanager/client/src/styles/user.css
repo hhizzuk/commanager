@@ -16,14 +16,6 @@
     margin-right: 20px; /* Add spacing between picture and text */
 }
 
-.logo-image {
-    width: 75px; /* Adjust size */
-    height: 75px;
-    border-radius: 50%;
-    object-fit: cover;
-    flex-shrink: 0; /* Prevent shrinking */
-   
-  }
 /* Profile Info on the Right */
 .profile-info {
     flex-grow: 1; /* Takes up remaining space */
