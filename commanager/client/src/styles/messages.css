@@ -1,7 +1,7 @@
 .main-container{
     display: flex;
     flex-direction: row;
-    height: calc(100vh - 92px);
+    height: calc(100vh - 102px);
 }
 
 .chat-container {
@@ -29,7 +29,8 @@
     background: #ececec;
     text-align: left;
 }
-input, button {
+
+.chat-container input, button {
     width: 100%;
     padding: 10px;
     margin-top: 5px;

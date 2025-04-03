@@ -10,13 +10,12 @@
 </head>
 <body>
     <div class="header">
-        <div class="logo">
-            <div class = "logo-header">
-                <a href = "home.html">
-                    <img src="./image/pinterest.png" alt="logo-image" class="logo-image">
-                </a>
+        <a href="home.html" class="logo">
+            <div class="logo-header">
+                <img src="./image/pinterest.png" alt="logo-image" class="logo-image">
             </div>
-        </div>
+            <p class="logo-text">commanager</p>
+        </a>
         <div class="search-bar">
             <input type="text" class="search-box" placeholder="Search">
         </div>
@@ -26,41 +25,41 @@
             </a>
         </div>
         <div class="avatar"></div>
-      <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const avatar = document.querySelector(".avatar");
-        const profileMenu = document.createElement("div");
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    const avatar = document.querySelector(".avatar");
+                    const profileMenu = document.createElement("div");
+                
+                    profileMenu.classList.add("profile-menu");
+                    profileMenu.innerHTML = `
+                        <ul>
+                            <li><a href="user.html">View Profile</a></li>
+                            <li>Purchases</li>
+                            <li><a href="messages.html">Messages</li>
+                            <li><a href="settings.html">Settings</li>
+                            <li><a href="login.html">Login</li>
+                        </ul>
+                    `;
+                    document.body.appendChild(profileMenu);
+                    
+                    avatar.addEventListener("click", (event) => {
+                        profileMenu.classList.toggle("active");
+                        const { bottom, right } = avatar.getBoundingClientRect();
+                        profileMenu.style.top = `${bottom + 10}px`;
+                        profileMenu.style.left = `${right - profileMenu.offsetWidth}px`;
+                    });
+                
+                    // Close the menu if clicked outside
+                    document.addEventListener("click", (event) => {
+                        if (!avatar.contains(event.target) && !profileMenu.contains(event.target)) {
+                            profileMenu.classList.remove("active");
+                        }
+                    });
+                });
+            </script>
+    </div>
     
-        profileMenu.classList.add("profile-menu");
-        profileMenu.innerHTML = `
-            <ul>
-                <li><a href="user.html">View Profile</a></li>
-                <li>Purchases</li>
-                <li><a href="messages.html">Messages</li>
-                <li><a href="settings.html">Settings</li>
-                <li><a href="login.html">Login</li>
-            </ul>
-        `;
-    
-        document.body.appendChild(profileMenu);
-    
-        avatar.addEventListener("click", (event) => {
-            profileMenu.classList.toggle("active");
-            const { bottom, right } = avatar.getBoundingClientRect();
-            profileMenu.style.top = `${bottom + 10}px`;
-            profileMenu.style.left = `${right - profileMenu.offsetWidth}px`;
-        });
-    
-        // Close the menu if clicked outside
-        document.addEventListener("click", (event) => {
-            if (!avatar.contains(event.target) && !profileMenu.contains(event.target)) {
-                profileMenu.classList.remove("active");
-            }
-        });
-    });
-    </script>
-      </div>
-      </div> <div class="main-container">
+    </div> <div class="main-container">
         <div class="sidebar">
             <h3>Chats</h3>
             <ul>
