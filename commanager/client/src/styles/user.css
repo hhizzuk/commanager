@@ -3,7 +3,7 @@
     display: flex;
     align-items: center;
     padding: 20px;
-    border-bottom: 2px solid #ddd;
+    background: #333;
 }
 
 /* Profile Picture on the Left */
@@ -27,12 +27,13 @@
 .username {
     margin: 0;
     font-size: 28px;
+    color: #ffffff;
     font-weight: bold;
 }
 
 .bio, .social-media {
     margin: 8px 0;
-    color: #555;
+    color: #ffffff;
 }
 
 .skills {
@@ -52,9 +53,6 @@
     display: flex;
     justify-content: space-around; /* Evenly distribute tabs */
     align-items: center;
-    background-color: #f5f5f5;
-    border-bottom: 2px solid #ccc;
-    padding: 10px 0;
 }
 
 /* Toggle Buttons */
@@ -66,17 +64,21 @@
     font-weight: bold;
     cursor: pointer;
     transition: background-color 0.3s ease, color 0.3s ease;
+    border: none;
+    background-color: #333;
+    color: #7c7c7c;
 }
 
 /* Active Tab */
 .toggle-btn.active {
-    background-color: #18A0FB;
-    color: white;
+    background-color: white;
+    color: black;
 }
 
 /* Hover Effect */
 .toggle-btn:hover {
-    background-color: #ddd;
+    background-color: #18A0FB;
+    color: white;
 }
 
 .content-section {
@@ -85,4 +87,8 @@
 
 .content-section.active {
     display: block; /* Show only the active section */
+}
+
+.profile-content{
+    padding: 20px;
 }
