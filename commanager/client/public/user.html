@@ -11,6 +11,7 @@
 <body>
     <div id="header"></div>
     <script src="../src/components/header.js"></script>
+    <script src="../src/components/commissions-card.js"></script>
     
     <!-- Profile Section -->
     <div class="profile-container">
@@ -117,29 +118,6 @@
 
         event.target.classList.add('active');
     }
-
-    document.addEventListener("DOMContentLoaded", function () {
-        // Popup Modal Functionality
-        const commissionCards = document.querySelectorAll(".commission-card");
-        const popup = document.getElementById("popup");
-        const closePopup = document.getElementById("closePopup");
-
-        commissionCards.forEach(card => {
-            card.addEventListener("click", () => {
-                popup.style.display = "flex";
-            });
-        });
-
-        closePopup.addEventListener("click", () => {
-            popup.style.display = "none";
-        });
-
-        popup.addEventListener("click", event => {
-            if (event.target === popup) {
-                popup.style.display = "none";
-            }
-        });
-    });
     </script>
 
 </body>

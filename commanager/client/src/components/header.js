@@ -20,9 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
             </div>    
         </header>
     `;
-});
 
-document.addEventListener("DOMContentLoaded", function () {
     const avatar = document.querySelector(".avatar");
     const profileMenu = document.createElement("div");
 
@@ -30,10 +28,10 @@ document.addEventListener("DOMContentLoaded", function () {
     profileMenu.innerHTML = `
         <ul>
             <li><a href="user.html">View Profile</a></li>
-            <li><a href="orders.html">Orders</li>
-            <li><a href="messages.html">Messages</li>
-            <li><a href="settings.html">Settings</li>
-            <li><a href="login.html">Login</li>
+            <li><a href="orders.html">Orders</a></li>
+            <li><a href="messages.html">Messages</a></li>
+            <li><a href="settings.html">Settings</a></li>
+            <li><a href="login.html">Login</a></li>
         </ul>
     `;
     document.body.appendChild(profileMenu);
