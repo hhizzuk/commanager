@@ -35,3 +35,9 @@
 .content-section.active {
     display: block;
 }
+
+/* Hover Effect */
+.toggle-btn:hover {
+    background-color: #18A0FB;
+    color: white;
+}

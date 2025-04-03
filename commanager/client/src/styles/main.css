@@ -145,11 +145,12 @@ a:hover {
 
 
 .search-bar {
-    display: flex;
-    align-items: center;
-    background: #eee;
-    padding: 5px 15px;
-    border-radius: 20px;
+  display: flex;
+  align-items: center;
+  background: #eee;
+  padding: 5px 15px;
+  border-radius: 20px;
+  height: 40px;
 }
 
 .search-box {
