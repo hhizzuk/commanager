@@ -3,20 +3,20 @@
 
 /* Apply Global Styles */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Montserrat', sans-serif; /* Set default font */
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif; /* Set default font */
 }
 
 /* Body Text */
 body {
-    display: flex;
-    flex-direction:column;
-    background: #ffffff;
-    color: #333; /* Default text color */
-    font-size: 16px; /* Default font size */
-    line-height: 1.6; /* Improves readability */
+  display: flex;
+  flex-direction:column;
+  background: #ffffff;
+  color: #333; /* Default text color */
+  font-size: 16px; /* Default font size */
+  line-height: 1.6; /* Improves readability */
 }
 
 /* Headings */
@@ -28,8 +28,8 @@ h5 { font-size: 18px; font-weight: 400; }
 h6 { font-size: 16px; font-weight: 400; }
 
 /* Paragraphs & Links */
-p {
-  font-size: 15px;
+p, div {
+  font-size: 16px;
   font-weight: 400;
   color: rgba(0, 0, 0, 0.8);
 }

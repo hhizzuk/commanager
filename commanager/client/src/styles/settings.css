@@ -23,8 +23,12 @@
 
 .settings-section h3 {
     font-size: 20px;
-    margin-top: 10px;
+    margin-top: 15px;
     color: #333;
+}
+
+h2{
+    margin-top: 20px;
 }
 
 /* Inputs */
