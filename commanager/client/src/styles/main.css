@@ -97,3 +97,73 @@ a:hover {
     font-weight: bold;
     color: #18A0FB;
 }
+
+
+.username {
+    color: #666;
+    font-size: 14px;
+}
+
+.profile-menu {
+  display: none;
+  position: absolute;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  z-index: 1000;
+}
+
+.profile-menu.active {
+  display: block;
+}
+
+.profile-menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.profile-menu li {
+  padding: 8px 15px;
+  cursor: pointer;
+}
+
+.profile-menu li:hover {
+  background-color: #f0f0f0;
+}
+
+.profile-menu a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.profile-menu a:hover {
+  color: #555;
+}
+
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    background: #eee;
+    padding: 5px 15px;
+    border-radius: 20px;
+}
+
+.search-box {
+  width: 650px;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 14px;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  background-color: gray;
+  border-radius: 50%;
+}
+  

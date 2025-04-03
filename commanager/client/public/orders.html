@@ -57,47 +57,6 @@
             });
         </script>
     </div>
-    
-    </div> <div class="main-container">
-        <div class="sidebar">
-            <h3>Chats</h3>
-            <ul>
-                <li>Chat 1</li>
-                <li>Chat 2</li>
-                <li>Chat 3</li>
-            </ul>
-        </div>
-        
-        <div class="chat-container">
-            <div class="messages" id="chat"></div>
-            <input type="text" id="userInput" placeholder="Type a message...">
-            <button onclick="sendMessage()">Send</button>
-        </div>
-    </div>
-    
-    <script>
-        function sendMessage() {
-            const input = document.getElementById('userInput');
-            const message = input.value.trim();
-            if (message === '') return;
 
-            const chat = document.getElementById('chat');
-            const userMessage = document.createElement('div');
-            userMessage.className = 'message userInput';
-            userMessage.innerText = message;
-            chat.appendChild(userMessage);
 
-            input.value = '';
-            chat.scrollTop = chat.scrollHeight;
-
-            setTimeout(() => {
-                const botMessage = document.createElement('div');
-                botMessage.className = 'message bot';
-                botMessage.innerText = 'Hello! This is a bot response.';
-                chat.appendChild(botMessage);
-                chat.scrollTop = chat.scrollHeight;
-            }, 1000);
-        }
-    </script>
 </body>
-</html>

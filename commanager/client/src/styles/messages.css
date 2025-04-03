@@ -21,10 +21,12 @@
     margin: 5px 0;
     border-radius: 5px;
 }
-.user {
+
+.userInput {
     background: #dcf8c6;
     text-align: right;
 }
+
 .bot {
     background: #ececec;
     text-align: left;
