@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Homepage</title>
     <link rel="stylesheet" href="../src/styles/main.css">
-    <link rel="stylesheet" href="../src/styles/messages.css">
+    <link rel="stylesheet" href="../src/styles/home.css">
+    <link rel="stylesheet" href="../src/styles/orders.css">
 </head>
 <body>
     <div class="header">
@@ -58,5 +59,128 @@
         </script>
     </div>
 
+    <div class="main-container">
+        <div class="sidebar">
+            <button class="toggle-btn active" onclick="showSection(event, 'current')">In Progress Orders</button>
+            <button class="toggle-btn" onclick="showSection(event, 'past')">Past Orders</button>
+            <button class="toggle-btn" onclick="showSection(event, 'pending')">Pending Orders</button>
+        </div>
+        
+        <div class="profile-content">
+            <div id="current" class="content-section active">
+                <h2>In Progress Orders</h2>
+                <p>Commissions that are currently still in progress.</p>
+                <div class="container">
+                    <div class="main-content">
+                        <div class="commission-card">
+                            <div class="commission-image"></div>
+                            <div class="commission-title">Commission Title</div>
+                            <div class="description">
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+                                Voluptas ullam consectetur ut, iusto unde est.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="past" class="content-section">
+                <h2>Past Orders</h2>
+                <p>Completed orders placed in the past.</p>
+                <div class="container">
+                    <div class="main-content">
+                        <div class="commission-card">
+                            <div class="commission-image"></div>
+                            <div class="commission-title">Commission Title</div>
+                            <div class="description">
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+                                Voluptas ullam consectetur ut, iusto unde est.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="pending" class="content-section">
+                <h2>Pending Orders</h2>
+                <p>Orders that still require the artist's confirmation.</p>
+                <div class="container">
+                    <div class="main-content">
+                        <div class="commission-card">
+                            <div class="commission-image"></div>
+                            <div class="commission-title">Commission Title</div>
+                            <div class="description">
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+                                Voluptas ullam consectetur ut, iusto unde est.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
+        <!-- Popup Modal -->
+        <div class="popup-overlay" id="popup">
+            <div class="popup-content">
+                <button class="close-btn" id="closePopup">&times;</button>
+                <div class="popup-header">Commission Title</div>
+                <div class="images">
+                    <div class="box"></div>
+                    <div class="box"></div>
+                    <div class="box"></div>
+                </div>
+                <div class="popup-body">
+                    <p>Commission description and details</p>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
+                        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                    </p>
+                    <a href="request.html" class="request-button">Request</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function showSection(event, sectionId) {
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+                section.style.display = "none";
+            });
+    
+            let selectedSection = document.getElementById(sectionId);
+            if (selectedSection) {
+                selectedSection.classList.add('active');
+                selectedSection.style.display = "block";
+            }
+    
+            document.querySelectorAll('.toggle-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+    
+            event.target.classList.add('active');
+        }
+
+            document.addEventListener("DOMContentLoaded", function () {
+            // Popup Modal Functionality
+            const commissionCards = document.querySelectorAll(".commission-card");
+            const popup = document.getElementById("popup");
+            const closePopup = document.getElementById("closePopup");
+
+            commissionCards.forEach(card => {
+                card.addEventListener("click", () => {
+                    popup.style.display = "flex";
+                });
+            });
+
+            closePopup.addEventListener("click", () => {
+                popup.style.display = "none";
+            });
+
+            popup.addEventListener("click", event => {
+                if (event.target === popup) {
+                    popup.style.display = "none";
+                }
+            });
+        });
+    </script>
 </body>
+</html>
