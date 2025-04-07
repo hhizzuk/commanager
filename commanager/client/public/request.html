@@ -12,15 +12,21 @@
     <div class="Login_SignUp">
         <h2>Request Form</h2>
 
-        
         <textarea id="message" placeholder="Enter your message here..." rows="6"></textarea>
         
+        <!-- Local file input -->
         <div class="file-upload">
             <label for="file-input" class="file-label">Choose File</label>
             <input type="file" id="file-input">
             <span class="file-name">No file chosen</span>
         </div>
         
+        <!-- Google Drive file input -->
+        <div class="file-upload">
+            <button type="button" id="drive-button" class="file-button">Choose File from Google Drive</button>
+            <span class="file-name">No file chosen from Google Drive</span>
+        </div>
+
         <p class="payment_continue">
             <div class="Button"><a href="payment.html" id="continue-btn">Continue</a></div>
         </p>
@@ -39,7 +45,12 @@
         </div>
     </div>
 
+    <!-- Load the Google API Loader script. -->
+    <script async defer src="https://apis.google.com/js/api.js" onload="onApiLoad()"></script>
+    <script async defer src="https://accounts.google.com/gsi/client" onload="gisLoaded()"></script>
+
     <script>
+        // Variables
         const messageInput = document.getElementById('message');
         const fileInput = document.getElementById('file-input');
         const continueBtn = document.getElementById('continue-btn');
@@ -48,15 +59,85 @@
         const modalMessage = document.getElementById('modal-message');
         const confirmBtn = document.getElementById('confirmBtn');
         const cancelBtn = document.getElementById('cancelBtn');
+        let selectedGoogleDriveFile = null;
 
+        // Local file input event
         fileInput.addEventListener('change', function(e) {
             const fileName = e.target.files[0] ? e.target.files[0].name : 'No file chosen';
             document.querySelector('.file-name').textContent = fileName;
         });
 
+        // Google Drive file picker function
+        let tokenClient;
+        let accessToken = null;
+        let pickerInited = false;
+        let gisInited = false;
+
+        // Use the API Loader script to load google.picker
+        function onApiLoad() {
+            gapi.load('picker', onPickerApiLoad);
+        }
+
+        function onPickerApiLoad() {
+            pickerInited = true;
+        }
+
+        function gisLoaded() {
+            tokenClient = google.accounts.oauth2.initTokenClient({
+                client_id: '920660249919-knu2jfis93uq11bkmjq4vjb5bi5vsj0d.apps.googleusercontent.com',
+                scope: 'https://www.googleapis.com/auth/drive.readonly', 
+                callback: '',  // Defined later
+            });
+            gisInited = true;
+        }
+
+        // Create and render a Google Picker object for selecting from Drive.
+        function createPicker() {
+            const showPicker = () => {
+                const picker = new google.picker.PickerBuilder()
+                    .addView(google.picker.ViewId.DOCS)
+                    .setOAuthToken(accessToken)
+                    .setDeveloperKey('AIzaSyCVgGUmhYrvqECS54QhnthjMNx-jaLv158')
+                    .setCallback(pickerCallback)
+                    .setAppId('920660249919')
+                    .build();
+                picker.setVisible(true);
+            }
+
+            // Request an access token.
+            tokenClient.callback = async (response) => {
+                if (response.error !== undefined) {
+                    throw (response);
+                }
+                accessToken = response.access_token;
+                showPicker();
+            };
+
+            if (accessToken === null) {
+                // Prompt the user to select a Google Account and ask for consent to share their data
+                // when establishing a new session.
+                tokenClient.requestAccessToken({prompt: 'consent'});
+            } else {
+                // Skip display of account chooser and consent dialog for an existing session.
+                tokenClient.requestAccessToken({prompt: ''});
+            }
+        }
+
+        // A simple callback implementation.
+        function pickerCallback(data) {
+            const url = 'nothing';
+            if (data[google.picker.Response.ACTION] == google.picker.Action.PICKED) {
+                const doc = data[google.picker.Response.DOCUMENTS][0];
+                url = doc[google.picker.Document.URL];
+            }
+            const message = `You picked: ${url}`;
+            document.getElementById('result').textContent = message;
+        }
+
+        // Continue button behavior
         continueBtn.addEventListener('click', function(e) {
             e.preventDefault();
-            if (!messageInput.value.trim() && !fileInput.files.length) {
+            if (!messageInput.value.trim() && !fileInput.files.length && !selectedGoogleDriveFile) {
                 errorMessage.textContent = 'Please enter a message or upload a file';
                 errorMessage.style.display = 'block';
                 return;
@@ -68,8 +149,10 @@
                 : '<p><strong>Message:</strong> No message provided</p>';
             const fileText = fileInput.files.length 
                 ? `<p><strong>File:</strong> ${fileInput.files[0].name}</p>` 
-                : '<p><strong>File:</strong> No file uploaded</p>';
-            
+                : selectedGoogleDriveFile 
+                    ? `<p><strong>File from Google Drive:</strong> ${selectedGoogleDriveFile.name}</p>`
+                    : '<p><strong>File:</strong> No file uploaded</p>';
+
             modalMessage.innerHTML = messageText + fileText;
             modal.style.display = 'flex';
         });
@@ -91,4 +174,3 @@
     </script>
 </body>
 </html>
- 
