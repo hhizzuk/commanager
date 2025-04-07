@@ -38,10 +38,36 @@
             <button class="toggle-btn" onclick="showSection(event, 'reviews')">Reviews</button>
 
         </div>
+            <!-- Add Service Modal -->
+    <div class="service-modal-overlay" id="serviceModal">
+        <div class="service-modal-content">
+        <button class="close-btn" onclick="closeServiceModal()">&times;</button>
+        <h3>Add a Service</h3>
+        <form id="serviceForm">
+            <label for="serviceTitle">Title:</label>
+            <input type="text" id="serviceTitle" name="title" required>
+    
+            <label for="serviceDescription">Description:</label>
+            <textarea id="serviceDescription" name="description" rows="4" required></textarea>
+    
+            <label for="servicePrice">Price (optional):</label>
+            <input type="text" id="servicePrice" name="price" placeholder="$100">
+    
+            <label for="serviceImage">Image (optional):</label>
+            <input type="file" id="serviceImage" name="image" accept="image/*">
+    
+            <button type="submit">Add Service</button>
+        </form>
+        </div>
+    </div>
+    
         <!-- Bottom Section: Toggle Content -->
         <div class="profile-content">
             <div id="services" class="content-section active">
-                <h2>Services</h2>
+                <div class="services-header">
+                    <h2>Services</h2>
+                    <button class="add-service-btn" onclick="openServiceModal()">+ Add Service</button>
+                  </div>
                 <p>Commission listings and details go here.</p>
                 <div class="container">
                     <div class="main-content">
@@ -170,33 +196,55 @@
         btn.classList.remove('active');
     });
     event.target.classList.add('active');
-}
-function openPortfolioModal() {
-    document.getElementById("portfolioModal").style.display = "flex";
-}
+    }
+    function openPortfolioModal() {
+        document.getElementById("portfolioModal").style.display = "flex";
+    }
 
-function closePortfolioModal() {
-    document.getElementById("portfolioModal").style.display = "none";
-}
+    function closePortfolioModal() {
+        document.getElementById("portfolioModal").style.display = "none";
+    }
 
-// You can later add real backend logic here
-document.getElementById("portfolioForm").addEventListener("submit", function (e) {
+    // You can later add real backend logic here
+    document.getElementById("portfolioForm").addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        const title = document.getElementById("portfolioTitle").value;
+        const description = document.getElementById("portfolioDescription").value;
+        const imageFile = document.getElementById("portfolioImage").files[0];
+
+        alert(`(Mock Upload)\nTitle: ${title}\nDescription: ${description}\nImage: ${imageFile.name}`);
+
+        // Close modal
+        closePortfolioModal();
+
+        // Clear form
+        this.reset();
+
+        // Later, you can append it to the portfolio section visually
+    });
+    function openServiceModal() {
+    document.getElementById("serviceModal").style.display = "flex";
+    }
+
+    function closeServiceModal() {
+    document.getElementById("serviceModal").style.display = "none";
+    }
+
+    document.getElementById("serviceForm").addEventListener("submit", function (e) {
     e.preventDefault();
 
-    const title = document.getElementById("portfolioTitle").value;
-    const description = document.getElementById("portfolioDescription").value;
-    const imageFile = document.getElementById("portfolioImage").files[0];
+    const title = document.getElementById("serviceTitle").value;
+    const description = document.getElementById("serviceDescription").value;
+    const price = document.getElementById("servicePrice").value || "N/A";
+    const imageFile = document.getElementById("serviceImage").files[0];
 
-    alert(`(Mock Upload)\nTitle: ${title}\nDescription: ${description}\nImage: ${imageFile.name}`);
+    alert(`(Mock Upload)\nService: ${title}\nDescription: ${description}\nPrice: ${price}\nImage: ${imageFile ? imageFile.name : "No image"}`);
 
-    // Close modal
-    closePortfolioModal();
-
-    // Clear form
+    closeServiceModal();
     this.reset();
+    });
 
-    // Later, you can append it to the portfolio section visually
-});
 
     </script>
 
