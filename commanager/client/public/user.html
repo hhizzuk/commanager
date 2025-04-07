@@ -38,7 +38,6 @@
             <button class="toggle-btn" onclick="showSection(event, 'reviews')">Reviews</button>
 
         </div>
-
         <!-- Bottom Section: Toggle Content -->
         <div class="profile-content">
             <div id="services" class="content-section active">
@@ -59,7 +58,12 @@
             </div>
 
             <div id="portfolio" class="content-section">
-                <h2>Portfolio</h2>
+                <div class="section-header">
+                    <h2>Portfolio</h2>
+                    <button id="addPortfolioBtn" class="add-portfolio-btn" onclick="openPortfolioModal()" style="display: none;">
+                        + Add to Portfolio
+                    </button>
+                </div>
                 <p>Showcase past work.</p>
             </div>
             <div id="reviews" class="content-section">
@@ -89,6 +93,26 @@
             </div>
         </div>
     </div>
+    <!-- Add Portfolio Modal -->
+<div class="portfolio-modal-overlay" id="portfolioModal">
+    <div class="portfolio-modal-content">
+        <button class="close-btn" onclick="closePortfolioModal()">&times;</button>
+        <h3>Add to Portfolio</h3>
+        <form id="portfolioForm">
+            <label for="portfolioTitle">Title:</label>
+            <input type="text" id="portfolioTitle" name="title" required>
+
+            <label for="portfolioDescription">Description:</label>
+            <textarea id="portfolioDescription" name="description" rows="4" required></textarea>
+
+            <label for="portfolioImage">Image:</label>
+            <input type="file" id="portfolioImage" name="image" accept="image/*" required>
+
+            <button type="submit">Add</button>
+        </form>
+    </div>
+</div>
+
 
     <!-- Scripts -->
     <script>
@@ -118,6 +142,62 @@
 
         event.target.classList.add('active');
     }
+
+    function showSection(event, sectionId) {
+    // hide all sections
+    document.querySelectorAll('.content-section').forEach(section => {
+        section.classList.remove('active');
+        section.style.display = "none";
+    });
+
+    // show selected section
+    const selectedSection = document.getElementById(sectionId);
+    if (selectedSection) {
+        selectedSection.classList.add('active');
+        selectedSection.style.display = "block";
+    }
+
+    // toggle portfolio button
+    const addBtn = document.getElementById('addPortfolioBtn');
+    if (sectionId === 'portfolio') {
+        addBtn.style.display = 'block';
+    } else {
+        addBtn.style.display = 'none';
+    }
+
+    // update active tab button
+    document.querySelectorAll('.toggle-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    event.target.classList.add('active');
+}
+function openPortfolioModal() {
+    document.getElementById("portfolioModal").style.display = "flex";
+}
+
+function closePortfolioModal() {
+    document.getElementById("portfolioModal").style.display = "none";
+}
+
+// You can later add real backend logic here
+document.getElementById("portfolioForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const title = document.getElementById("portfolioTitle").value;
+    const description = document.getElementById("portfolioDescription").value;
+    const imageFile = document.getElementById("portfolioImage").files[0];
+
+    alert(`(Mock Upload)\nTitle: ${title}\nDescription: ${description}\nImage: ${imageFile.name}`);
+
+    // Close modal
+    closePortfolioModal();
+
+    // Clear form
+    this.reset();
+
+    // Later, you can append it to the portfolio section visually
+});
+
     </script>
 
 </body>

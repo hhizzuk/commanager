@@ -92,3 +92,103 @@
 .profile-content{
     padding: 20px;
 }
+.section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.section-header h2 {
+    margin: 0;
+    font-size: 24px;
+    color: #333;
+}
+
+/* Adjust button now that it's inline */
+.add-portfolio-btn {
+    position: static;
+    background-color: #18A0FB;
+    color: white;
+    padding: 8px 14px;
+    font-size: 14px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    z-index: 1;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    margin-left: 20px;
+}
+
+.add-portfolio-btn:hover {
+    background-color: #1993e4;
+}
+
+/* Portfolio Modal Overlay */
+.portfolio-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+/* Modal Content */
+.portfolio-modal-content {
+    background: white;
+    padding: 20px 25px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 400px;
+    position: relative;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+/* Close Button */
+.portfolio-modal-content .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    font-size: 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+/* Form Styling */
+#portfolioForm label {
+    display: block;
+    margin-top: 12px;
+    margin-bottom: 4px;
+    font-weight: bold;
+}
+
+#portfolioForm input[type="text"],
+#portfolioForm textarea,
+#portfolioForm input[type="file"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#portfolioForm button[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    background-color: #18A0FB;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#portfolioForm button[type="submit"]:hover {
+    background-color: #007ad6;
+}
