@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Delete Account</title>
+  <link rel="stylesheet" href="../src/styles/main.css" />
+  <style>
+    .modal {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0, 0, 0, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-content {
+      background-color: #fff;
+      padding: 2rem;
+      border-radius: 1rem;
+      text-align: center;
+      width: 90%;
+      max-width: 400px;
+    }
+
+    .modal-buttons {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 1.5rem;
+    }
+
+    .modal-buttons button {
+      padding: 0.5rem 1rem;
+      font-weight: bold;
+      border-radius: 0.5rem;
+      border: none;
+      cursor: pointer;
+    }
+
+    .cancel-button {
+      background-color: #ddd;
+    }
+
+    .confirm-button {
+      background-color: #ff4d4f;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="modal" id="deleteModal">
+    <div class="modal-content">
+      <h2>Are you absolutely sure?</h2>
+      <p>This action cannot be undone. This will permanently delete your account.</p>
+      <div class="modal-buttons">
+        <button class="cancel-button" onclick="cancelDelete()">Cancel</button>
+        <button class="confirm-button" onclick="confirmDelete()">Yes, Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function cancelDelete() {
+      // Go back to settings page
+      window.location.href = "settings.html";
+    }
+
+    async function confirmDelete() {
+      try {
+        // This should call your backend or Supabase function to delete the account
+        // For now, we'll simulate it:
+        alert("Account deleted successfully!");
+
+        // Redirect to login or goodbye page
+        window.location.href = "login.html";
+      } catch (err) {
+        console.error(err);
+        alert("Something went wrong.");
+      }
+    }
+  </script>
+</body>
+</html>
