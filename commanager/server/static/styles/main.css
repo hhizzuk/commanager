@@ -77,19 +77,19 @@ a:hover {
   color: #18A0FB;
 }
 
-.logo{
+.logo {
   display: flex;
   flex-direction: row;
   align-items: center;
   padding-right: 20px;
+  margin-right: 20px; /* add spacing after the logo */
 }
 
 .logo-image {
-  width: 75px; /* Adjust size */
-  height: 75px;
-  border-radius: 50%;
-  object-fit: cover;
-  flex-shrink: 0; /* Prevent shrinking */
+  max-height: 90px; /* make it bigger */
+  width: auto;
+  height: auto;
+  object-fit: contain;
 }
 
 .logo-text {

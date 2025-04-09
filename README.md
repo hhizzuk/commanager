@@ -1,5 +1,7 @@
 # Commission Manager
 
+SUPABSE: https://supabase.com/dashboard/project/vnhyhdgwzfbzyhxztabm
+
 Centralizing the commissioning and advertising process for artists and clients.
 
 ## Description -- to be edited
