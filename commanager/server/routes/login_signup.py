@@ -71,3 +71,8 @@ def setup_routes(app):
                 return render_template('login.html', popup_message="Error logging in.")
 
         return render_template('login.html')
+
+    @app.route('/logout')
+    def logout():
+        session.clear()
+        return redirect(url_for('login'))
