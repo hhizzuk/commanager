@@ -2,7 +2,8 @@ from flask import request, redirect, url_for, render_template, flash, session
 from supabase import create_client, Client
 from commanager.server import config
 
-supabase: Client = create_client(config.SUPABASE_URL, config.SUPABASE_ANON_KEY)
+supabase_admin: Client = create_client(config.SUPABASE_URL, config.SUPABASE_SERVICE_ROLE_KEY)
+supabase_user: Client = create_client(config.SUPABASE_URL, config.SUPABASE_ANON_KEY)
 
 def setup_routes(app):
     @app.route('/signup', methods=['GET', 'POST'])
@@ -14,19 +15,23 @@ def setup_routes(app):
             confirm_password = request.form['confirm_password']
 
             if password != confirm_password:
-                flash('Passwords do not match.')
+                return render_template('signup.html', popup_message="Passwords do not match.")
+            try:
+                response = supabase_admin.auth.admin.create_user({
+                    'email': email.strip(),
+                    'password': password,
+                    'email_confirm': True
+                })
+                user = response.user
+            except Exception as e:
+                import traceback
+                traceback.print_exc()
+                flash(f'Signup failed: {e}')
                 return render_template('signup.html')
 
-            result = supabase.auth.sign_up({'email': email, 'password': password})
-            if result.get('error'):
-                flash('Signup failed: ' + result['error']['message'])
-                return render_template('signup.html')
-
-            uid = result['user']['id']
-            supabase.table('users').insert({
-                'uid': uid,
+            uid = user.id
+            supabase_admin.table('users').update({
                 'username': username,
-                'email': email,
                 'pfp': '',
                 'bio': '',
                 'sid': '',
@@ -34,11 +39,12 @@ def setup_routes(app):
                 'created_at': None,
                 'profile_urls': [],
                 'rating': 0.0
-            }).execute()
+            }).eq('uid', uid).execute()
 
+            session['user'] = uid
+            session['username'] = username
             flash('Signup successful!')
-            return render_template('home.html')
-
+            return redirect(url_for('home'))
         return render_template('signup.html')
 
     @app.route('/login', methods=['GET', 'POST'])
@@ -46,11 +52,22 @@ def setup_routes(app):
         if request.method == 'POST':
             email = request.form['email']
             password = request.form['password']
-            result = supabase.auth.sign_in_with_password({'email': email, 'password': password})
-            if result.get('error'):
-                flash('Login failed: ' + result['error']['message'])
-            else:
-                session['user'] = result['session']['access_token']
+            try:
+                result = supabase_user.auth.sign_in_with_password({
+                    'email': email,
+                    'password': password
+                })
+                
+                uid = result.user.id
+                session['user'] = uid
+                # get the username from the database using the uid
+                user_data = supabase_user.table('users').select('username').eq('uid', uid).single().execute()
+                username = user_data.data['username']
+                session['username'] = username
+
                 flash('Logged in successfully!')
-                return redirect(url_for('dashboard'))
+                return redirect(url_for('home'))
+            except Exception as e:
+                return render_template('login.html', popup_message="Error logging in.")
+
         return render_template('login.html')
