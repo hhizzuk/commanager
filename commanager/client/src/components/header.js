@@ -4,9 +4,8 @@ document.addEventListener("DOMContentLoaded", function () {
             <div class="header">
                 <a href="home.html" class="logo">
                     <div class="logo-header">
-                        <img src="./image/pinterest.png" alt="logo-image" class="logo-image">
+                        <img src="./image/commanager.png" alt="logo-image" class="logo-image">
                     </div>
-                    <p class="logo-text">commanager</p>
                 </a>
                 <div class="search-bar">
                     <input type="text" class="search-box" placeholder="Search">
