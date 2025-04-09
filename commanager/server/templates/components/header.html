@@ -1,0 +1,30 @@
+<header>
+    <div class="header">
+        <a href="/home" class="logo">
+            <div class="logo-header">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="logo-image" class="logo-image">
+            </div>
+            <p class="logo-text">commanager</p>
+        </a>
+        <div class="search-bar">
+            <input type="text" class="search-box" placeholder="Search">
+        </div>
+        <div class="user">
+            <a href="{{ url_for('user_profile', username=username) }}">
+                <div class="username-text">{{ username }}</div>
+            </a>
+        </div>
+        <div class="avatar">        
+            <img src="{{ url_for('static', filename='images/profile.png') }}" alt="User Avatar" class="avatar-img">
+            <div class="profile-menu">
+                <ul>
+                    <li><a href="{{ url_for('user_profile', username=username) }}">View Profile</a></li>
+                    <li><a href="{{ url_for('user_orders', username=username) }}">Orders</a></li>
+                    <li><a href="{{ url_for('user_messages', username=username) }}">Messages</a></li>
+                    <li><a href="{{ url_for('user_settings', username=username) }}">Settings</a></li>
+                    <li><a href="{{ url_for('login') }}">Login</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>    
+</header>

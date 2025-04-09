@@ -1,6 +1,9 @@
 """commanager development configuration."""
 
+from dotenv import load_dotenv
 import os
+
+load_dotenv()
 
 SECRET_KEY = os.environ.get('SECRET_KEY', 'your_default_secret_key')
 SUPABASE_URL = os.environ.get('SUPABASE_URL')

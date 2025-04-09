@@ -4,13 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Homepage</title>
-    <link rel="stylesheet" href="../src/styles/main.css">
-    <link rel="stylesheet" href="../src/styles/home.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/home.css') }}">
 </head>
 <body>
     <div id="header"></div>
-    <script src="../src/components/header.js"></script>
-    <script src="../src/components/commissions-card.js"></script>
+    {% include "components/header.html" %}
+    <script src="{{ url_for('static', filename='js/profile-menu.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/commissions-card.js') }}"></script>
     
     <div class="container">
         <div class="main-content">
