@@ -8,17 +8,6 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/login_signup.css') }}">
 </head>
 <body>
-    {% with messages = get_flashed_messages() %}
-  {% if messages %}
-    <ul class="flashes">
-      {% for message in messages %}
-        <li>{{ message }}</li>
-      {% endfor %}
-    </ul>
-  {% endif %}
-{% endwith %}
-
-
     <div class="container">
     <div class="Login_SignUp">
         <h2>Sign Up</h2>

@@ -32,7 +32,6 @@ def setup_routes(app):
                 'sid': '',
                 'social_media_links': {},
                 'created_at': None,
-                'type': 'standard',
                 'profile_urls': [],
                 'rating': 0.0
             }).execute()
