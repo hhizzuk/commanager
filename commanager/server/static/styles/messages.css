@@ -41,12 +41,33 @@
 
 .sidebar{
     width: 250px;
-    border-right: 1px solid black;
+    border-right: 1px solid #ddd;
     padding: 20px;
 }
 
 .sidebar ul{
     list-style-type:none;
+}
+
+.sidebar ul li {
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.sidebar ul li.selected {
+    background-color: #ddd !important;
+}
+
+.sidebar ul li:hover {
+    background-color: #dbf0fe;
+}
+
+.chat-select{
+    background-color: transparent;
+    border: none;
 }
 
 .input-group{

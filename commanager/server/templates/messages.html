@@ -39,37 +39,45 @@
     </main>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-    const input = document.getElementById('userInput');
-    const sendBtn = document.getElementById('sendBtn');
-    const chat = document.getElementById('chat');
-
-    sendBtn.addEventListener('click', sendMessage);
-    input.addEventListener('keypress', function (e) {
-        if (e.key === 'Enter') sendMessage();
-    });
-
-    function sendMessage() {
-        const message = input.value.trim();
-        if (!message) return;
-
-        const userMessage = document.createElement('div');
-        userMessage.className = 'message userInput';
-        userMessage.innerText = message;
-        chat.appendChild(userMessage);
-
-        input.value = '';
-        chat.scrollTop = chat.scrollHeight;
-
-        setTimeout(() => {
-            const botMessage = document.createElement('div');
-            botMessage.className = 'message bot';
-            botMessage.innerText = 'Hello! This is a bot response.';
-            chat.appendChild(botMessage);
+    document.addEventListener('DOMContentLoaded', () => {
+        const input = document.getElementById('userInput');
+        const sendBtn = document.getElementById('sendBtn');
+        const chat = document.getElementById('chat');
+        const chatButtons = document.querySelectorAll('.sidebar ul li');
+        
+        sendBtn.addEventListener('click', sendMessage);
+        input.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') sendMessage();
+        });
+    
+        chatButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.sidebar ul li').forEach(el => el.classList.remove('selected'));
+                btn.classList.add('selected');
+            });
+        });
+    
+        function sendMessage() {
+            const message = input.value.trim();
+            if (!message) return;
+        
+            const userMessage = document.createElement('div');
+            userMessage.className = 'message userInput';
+            userMessage.innerText = message;
+            chat.appendChild(userMessage);
+        
+            input.value = '';
             chat.scrollTop = chat.scrollHeight;
-        }, 1000);
-    }
-});
+        
+            setTimeout(() => {
+                const botMessage = document.createElement('div');
+                botMessage.className = 'message bot';
+                botMessage.innerText = 'Hello! This is a bot response.';
+                chat.appendChild(botMessage);
+                chat.scrollTop = chat.scrollHeight;
+            }, 1000);
+        }
+    });
 
     </script>
 </body>
