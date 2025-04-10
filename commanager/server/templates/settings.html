@@ -43,7 +43,13 @@
     <div class="settings-section danger-zone">
         <h2>Danger Zone</h2>
         <p>Deleting your account is irreversible. All data will be lost.</p>
-        <button class="Button" onclick="window.location.href='destroy_account.html'">
+        <button class="Button" onclick="navigateToDestroyAccount()">
+
+            <script>
+            function navigateToDestroyAccount() {
+                window.location.href = "{{ url_for('destroy_account') }}";
+            }
+            </script>
         Delete Account
         </button>
     </div>

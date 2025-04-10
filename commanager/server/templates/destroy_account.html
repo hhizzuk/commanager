@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Delete Account</title>
-  <link rel="stylesheet" href="../src/static/styles/main.css" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}" />
   <style>
     .modal {
       position: fixed;
@@ -63,22 +63,27 @@
 
   <script>
     function cancelDelete() {
-      // Go back to settings page
-      window.location.href = "settings.html";
+        window.location.href = "{{ url_for('user_settings', username=session.username) }}";
     }
 
     async function confirmDelete() {
-      try {
-        // This should call your backend or Supabase function to delete the account
-        // For now, we'll simulate it:
-        alert("Account deleted successfully!");
-
-        // Redirect to login or goodbye page
-        window.location.href = "login.html";
-      } catch (err) {
-        console.error(err);
-        alert("Something went wrong.");
-      }
+        try {
+            const response = await fetch("{{ url_for('destroy_account') }}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+            
+            if (response.ok) {
+                window.location.href = "{{ url_for('login') }}";
+            } else {
+                alert("Something went wrong. Please try again.");
+            }
+        } catch (err) {
+            console.error(err);
+            alert("Something went wrong.");
+        }
     }
   </script>
 </body>
