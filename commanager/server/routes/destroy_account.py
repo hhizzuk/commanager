@@ -3,7 +3,6 @@ from supabase import create_client, Client
 from commanager.server import config
 
 supabase_admin: Client = create_client(config.SUPABASE_URL, config.SUPABASE_SERVICE_ROLE_KEY)
-supabase_user: Client = create_client(config.SUPABASE_URL, config.SUPABASE_ANON_KEY)
 
 def setup_destroy_routes(app):
     @app.route('/destroy_account', methods = ['GET', 'POST'])
