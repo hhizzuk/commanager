@@ -31,7 +31,9 @@
             <div class="messages" id="chat" role="log" aria-live="polite"></div>
             <div class="input-group">
                 <input type="text" id="userInput" placeholder="Type a message..." aria-label="Type a message">
-                <button class="Button" id="sendBtn">Send</button>
+                <button id="sendBtn">
+                    <img src="{{ url_for('static', filename='images/send_button.png') }}" alt="Send Button">
+                </button>
             </div>
         </section>
     </main>
