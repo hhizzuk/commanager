@@ -4,54 +4,71 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Homepage</title>
+    
+    <!-- Stylesheets -->
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/messages.css') }}">
+
+    <!-- JavaScript -->
+    <script src="{{ url_for('static', filename='js/profile-menu.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='js/chat.js') }}" defer></script>
 </head>
+
 <body>
-    <div id="header"></div>
     {% include "components/header.html" %}
-    <script src="{{ url_for('static', filename='js/profile-menu.js') }}"></script>
     
-    <div class="main-container">
-        <div class="sidebar">
+    <main class="main-container">
+        <aside class="sidebar">
             <h3>Chats</h3>
             <ul>
-                <li>Chat 1</li>
-                <li>Chat 2</li>
-                <li>Chat 3</li>
+                <li><button class="chat-select">Chat 1</button></li>
+                <li><button class="chat-select">Chat 2</button></li>
+                <li><button class="chat-select">Chat 3</button></li>
             </ul>
-        </div>
+        </aside>
         
-        <div class="chat-container">
-            <div class="messages" id="chat"></div>
-            <input type="text" id="userInput" placeholder="Type a message...">
-            <button onclick="sendMessage()">Send</button>
-        </div>
-    </div>
-    
+        <section class="chat-container">
+            <div class="messages" id="chat" role="log" aria-live="polite"></div>
+            <div class="input-group">
+                <input type="text" id="userInput" placeholder="Type a message..." aria-label="Type a message">
+                <button class="Button" id="sendBtn">Send</button>
+            </div>
+        </section>
+    </main>
+
     <script>
-        function sendMessage() {
-            const input = document.getElementById('userInput');
-            const message = input.value.trim();
-            if (message === '') return;
+        document.addEventListener('DOMContentLoaded', () => {
+    const input = document.getElementById('userInput');
+    const sendBtn = document.getElementById('sendBtn');
+    const chat = document.getElementById('chat');
 
-            const chat = document.getElementById('chat');
-            const userMessage = document.createElement('div');
-            userMessage.className = 'message userInput';
-            userMessage.innerText = message;
-            chat.appendChild(userMessage);
+    sendBtn.addEventListener('click', sendMessage);
+    input.addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') sendMessage();
+    });
 
-            input.value = '';
+    function sendMessage() {
+        const message = input.value.trim();
+        if (!message) return;
+
+        const userMessage = document.createElement('div');
+        userMessage.className = 'message userInput';
+        userMessage.innerText = message;
+        chat.appendChild(userMessage);
+
+        input.value = '';
+        chat.scrollTop = chat.scrollHeight;
+
+        setTimeout(() => {
+            const botMessage = document.createElement('div');
+            botMessage.className = 'message bot';
+            botMessage.innerText = 'Hello! This is a bot response.';
+            chat.appendChild(botMessage);
             chat.scrollTop = chat.scrollHeight;
+        }, 1000);
+    }
+});
 
-            setTimeout(() => {
-                const botMessage = document.createElement('div');
-                botMessage.className = 'message bot';
-                botMessage.innerText = 'Hello! This is a bot response.';
-                chat.appendChild(botMessage);
-                chat.scrollTop = chat.scrollHeight;
-            }, 1000);
-        }
     </script>
 </body>
 </html>

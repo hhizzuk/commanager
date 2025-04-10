@@ -1,7 +1,7 @@
 .main-container{
     display: flex;
     flex-direction: row;
-    height: calc(100vh - 102px);
+    height: calc(100vh - 97px);
 }
 
 .chat-container {
@@ -10,7 +10,7 @@
 }
 
 .messages {
-    height: calc(100vh - 225px);
+    height: calc(100vh - 237px);
     overflow-y: auto;
     border-bottom: 1px solid #ddd;
     margin-bottom: 10px;
@@ -23,7 +23,7 @@
 }
 
 .userInput {
-    background: #dcf8c6;
+    background: #dbf0fe;
     text-align: right;
 }
 
@@ -46,4 +46,9 @@
 
 .sidebar ul{
     list-style-type:none;
+}
+
+.Button{
+    padding: 0;
+    margin: 10px auto;
 }

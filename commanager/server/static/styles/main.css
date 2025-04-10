@@ -86,7 +86,7 @@ a:hover {
 }
 
 .logo-image {
-  max-height: 90px; /* make it bigger */
+  max-height: 70px; /* make it bigger */
   width: auto;
   height: auto;
   object-fit: contain;
