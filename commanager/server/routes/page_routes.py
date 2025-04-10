@@ -4,7 +4,6 @@ def setup_page_routes(app):
     @app.route('/')
     def home():
         username = session.get('username')
-        print("Session username on home route:", session.get('username'))
         if not username:
             return redirect(url_for('login'))
         return render_template('home.html', username=username)

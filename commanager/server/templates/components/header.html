@@ -8,21 +8,21 @@
         <div class="search-bar">
             <input type="text" class="search-box" placeholder="Search">
         </div>
-        <div class="user">
+        <div class="profile">
             <a href="{{ url_for('user_profile', username=username) }}">
-                <div class="username-text">{{ username }}</div>
+                <div class="user">{{ username }}</div>
             </a>
-        </div>
-        <div class="avatar">        
-            <img src="{{ url_for('static', filename='images/profile.png') }}" alt="User Avatar" class="avatar-img">
-            <div class="profile-menu">
-                <ul>
-                    <li><a href="{{ url_for('user_profile', username=username) }}">View Profile</a></li>
-                    <li><a href="{{ url_for('user_orders', username=username) }}">Orders</a></li>
-                    <li><a href="{{ url_for('user_messages', username=username) }}">Messages</a></li>
-                    <li><a href="{{ url_for('user_settings', username=username) }}">Settings</a></li>
-                    <li><a href="{{ url_for('logout') }}">Logout</a></li>
-                </ul>
+            <div class="avatar">        
+                <img src="{{ url_for('static', filename='images/profile.png') }}" alt="User Avatar" class="avatar-img">
+                <div class="profile-menu">
+                    <ul>
+                        <li><a href="{{ url_for('user_profile', username=username) }}">View Profile</a></li>
+                        <li><a href="{{ url_for('user_orders', username=username) }}">Orders</a></li>
+                        <li><a href="{{ url_for('user_messages', username=username) }}">Messages</a></li>
+                        <li><a href="{{ url_for('user_settings', username=username) }}">Settings</a></li>
+                        <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>    

@@ -43,7 +43,6 @@ def setup_routes(app):
 
             session['user'] = uid
             session['username'] = username
-            flash('Signup successful!')
             return redirect(url_for('home'))
         return render_template('signup.html')
 
@@ -65,7 +64,6 @@ def setup_routes(app):
                 username = user_data.data['username']
                 session['username'] = username
 
-                flash('Logged in successfully!')
                 return redirect(url_for('home'))
             except Exception as e:
                 return render_template('login.html', popup_message="Error logging in.")

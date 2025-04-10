@@ -92,9 +92,9 @@ a:hover {
   object-fit: contain;
 }
 
-.username {
-  color: #666;
-  font-size: 14px;
+.user {
+  color: #18A0FB;
+  padding-right: 15px;
 }
 
 .profile-menu {
@@ -136,6 +136,11 @@ a:hover {
   color: #555;
 }
 
+.profile{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
 
 .search-bar {
   display: flex;
@@ -147,7 +152,7 @@ a:hover {
 }
 
 .search-box {
-  width: 650px;
+  width: 50vw;
   border: none;
   outline: none;
   background: transparent;
