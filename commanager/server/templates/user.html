@@ -16,10 +16,9 @@
     
     <!-- Profile Section -->
     <div class="profile-container">
-
         <!-- Top Section: Profile Info -->
         <div class="profile-header">
-            <img src="./image/profile.png" alt="Profile Picture" class="profile-pic">
+            <img src="{{ url_for('static', filename='images/profile.png') }}" alt="User Avatar" class="profile-pic">
             <div class="profile-info">
                 <h1 class="username">Username</h1>
                 <p class="bio">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>

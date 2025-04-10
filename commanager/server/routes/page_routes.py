@@ -2,7 +2,6 @@ from flask import render_template, session, redirect, url_for, abort
 
 def setup_page_routes(app):
     def get_authorized_user():
-        """Helper function to check auth and get username"""
         if 'username' not in session:
             return None
         return session['username']
