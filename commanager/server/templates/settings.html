@@ -15,22 +15,66 @@
     <!-- Settings Page Content -->
     <div class="settings-container">
         <h1>Settings</h1>
-        
+        <!-- Add this to your existing settings.html -->
         <div class="settings-section">
             <h2>Account Information</h2>
             <div>
                 <h3>Change Password</h3>
-                <label for="password">Current Password</label>
-                <input type="password" id="password" placeholder="Current password">
-                
-                <label for="password">New Password</label>
-                <input type="password" id="password" placeholder="New password">
+                <form id="passwordForm">
+                    <label for="current_password">Current Password</label>
+                    <input type="password" id="current_password" name="current_password" placeholder="Current password" required>
+                    
+                    <label for="new_password">New Password</label>
+                    <input type="password" id="new_password" name="new_password" placeholder="New password" >
 
-                <label for="password">Confirm Password</label>
-                <input type="password" id="password" placeholder="Confirm password">
-                <button class="Button">Save Changes</button>
+                    <label for="confirm_password">Confirm Password</label>
+                    <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm password" required>
+                    
+                    <button type="submit" class="Button">Save Changes</button>
+                </form>
+                <div id="passwordMessage"></div>
             </div>
         </div>
+
+        <script>
+        document.getElementById('passwordForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const form = e.target;
+            const message = document.getElementById('passwordMessage');
+            message.textContent = '';
+            
+            // Validate passwords match
+            if (form.new_password.value !== form.confirm_password.value) {
+                message.textContent = "New passwords don't match!";
+                return;
+            }
+
+            try {
+                const response = await fetch('/update_password', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        current_password: form.current_password.value,
+                        new_password: form.new_password.value
+                    })
+                });
+
+                const result = await response.json();
+                
+                if (response.ok) {
+                    message.textContent = "Password updated successfully!";
+                    form.reset();
+                } else {
+                    message.textContent = result.error || "Failed to update password";
+                }
+            } catch (err) {
+                message.textContent = "Network error occurred";
+                console.error(err);
+            }
+        });
+</script>
 
         <!-- ... previous content ... -->
 

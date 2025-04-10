@@ -88,3 +88,18 @@ h2{
 .Button{
     margin: 5px 0;
 }
+#passwordMessage {
+    margin-top: 1rem;
+    padding: 0.5rem;
+    border-radius: 4px;
+}
+
+#passwordMessage.error {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+#passwordMessage.success {
+    background-color: #d4edda;
+    color: #155724;
+}
