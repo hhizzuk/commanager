@@ -34,7 +34,6 @@ def setup_routes(app):
                 'username': username,
                 'pfp': '',
                 'bio': '',
-                'sid': '',
                 'social_media_links': {},
                 'created_at': None,
                 'profile_urls': [],

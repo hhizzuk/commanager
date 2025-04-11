@@ -20,8 +20,9 @@
         <div class="profile-header">
             <img src="{{ url_for('static', filename='images/profile.png') }}" alt="User Avatar" class="profile-pic">
             <div class="profile-info">
-                <h1 class="username">Username</h1>
-                <p class="bio">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                <h1 class="username">{{ username }}</h1>
+                <p class="bio">{{ bio }}</p>
+                <p class="bio">{{ email }}</p>
                 <p class="social-media">Social Media @username</p>
                 <div class="skills">
                     <span class="tag">Tag</span>
@@ -66,11 +67,19 @@
             <div id="services" class="content-section active">
                 <div class="services-header">
                     <h2>Services</h2>
-                    <button class="add-service-btn" onclick="openServiceModal()">+ Add Service</button>
+                        <button type="submit" class="add-service-btn" onclick="openServiceModal()">+ Add Service</button>
                   </div>
                 <p>Commission listings and details go here.</p>
                 <div class="container">
                     <div class="main-content">
+                        {% for service in services %}
+                            <div class="commission-image"></div>
+                                <div class="commission-title">{{ service['title'] }}</div>
+                                <div class="description">
+                                    {{ service['description'] }}
+                                </div>
+                            </div>
+                        {% endfor %}
                         <div class="commission-card">
                             <div class="commission-image"></div>
                             <div class="commission-title">Commission Title</div>
@@ -91,6 +100,13 @@
                     </button>
                 </div>
                 <p>Showcase past work.</p>
+                <div class="main-content">
+                    {% for img in portfolio %}
+                    <div class="port-img">
+                        {{ img }}
+                    </div>
+                    {% endfor %}
+                </div>
             </div>
             <div id="reviews" class="content-section">
                 <h2>Reviews</h2>

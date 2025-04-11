@@ -1,4 +1,4 @@
-from flask import request, jsonify, session
+from flask import request, render_template, redirect, jsonify, session
 from supabase import create_client
 from commanager.server import config
 
@@ -40,18 +40,40 @@ def setup_user_routes(app):
         except Exception as e:
             return jsonify({'error': 'Invalid current password or other error'}), 400
 
-# @commanager.app.route('/users/<username>/')
-# def show_user_page(username):
-#     """Display /users/user route."""
-#     if  'user' not in flask.session:
-#         return flask.redirect('/login')
-    
-#     name = flask.session['name']
-#     username = flask.session['username']
-    
-#     context = {
-#         "username": username,
-#         "name": name,
-#     }
+    @app.route('/user/<user_url_slug>/', methods=['GET'])
+    def display_user(user_url_slug):
+        """Display /users/user route."""
+        if  'user' not in session:
+            return redirect('/login')
+        
+        uid = session['user']
+        username = session['username']
+        user_data = supabase_user.table('users').select('profile_urls', 'pfp', 'rating', 'bio', 'social_media_links', 'email').eq('uid', uid).single().execute()
+        services = supabase_user.table('services').select('*').eq('uid', uid).single().execute()
+        reviews = supabase_user.table('reviews').select('*').eq('reviewee_id', uid).single().execute()
+        portfolio = user_data['profile_urls']
+        pfp = user_data['pfp']
+        bio = user_data['bio']
+        sm_links = user_data['social_media_links']
+        email = user_data['email']
+        rating = user_data['rating']
+        
+        context = {
+            "uid": uid,
+            "username": username,
+            "pfp": pfp,
+            "bio": bio,
+            "sm_links": sm_links,
+            "email": email,
+            "services": services,
+            "portfolio": portfolio,
+            "reviews": reviews,
+            "rating": rating
+        }
 
-#     return flask.render_template("user.html", **context)
+        return render_template("user.html", **context)
+    
+    # @app.route('/user/<user_url_slug>/', methods=['POST'])
+    # def update_services():
+    #     target_url = request.args.get('target')
+    #     return redirect(target_url)

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/home.css">
+</head>
+<body>
+  <div class="header">
+    <div class="logo">
+        <div class="logo-text">Logo</div>
+    </div>
+    <div class="discover">Discover</div>
+    <div class="commission">Commission</div>
+    <div class="search-bar">
+        <input type="text" class="search-box" placeholder="Search">
+    </div>
+    <div class="user">
+        <a href="{{ url_for('user_profile', username=username) }}">
+            <div class="username-text">{{ username }}</div>
+        </a>
+    </div>
+    <div class="avatar"></div>
+  <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const avatar = document.querySelector(".avatar");
+    const profileMenu = document.createElement("div");
+
+    profileMenu.classList.add("profile-menu");
+    profileMenu.innerHTML = `
+        <ul>
+            <li><a href="user.html">View Profile</a></li>
+            <li>Purchases</li>
+            <li>Messages</li>
+            <li>Settings</li>
+            <li><a href="login.html">Login</li>
+        </ul>
+    `;
+
+    document.body.appendChild(profileMenu);
+
+    avatar.addEventListener("click", (event) => {
+        profileMenu.classList.toggle("active");
+        const { bottom, right } = avatar.getBoundingClientRect();
+        profileMenu.style.top = `${bottom + 10}px`;
+        profileMenu.style.left = `${right - profileMenu.offsetWidth}px`;
+    });
+
+    // Close the menu if clicked outside
+    document.addEventListener("click", (event) => {
+        if (!avatar.contains(event.target) && !profileMenu.contains(event.target)) {
+            profileMenu.classList.remove("active");
+        }
+    });
+});
+</script>
+  </div>
+    <div class="container">
+        <div class="main-content">
+            <div class="commission-card">
+                <div class="commission-image"></div>
+                <div class="avatar-card">
+                    <div class="avatar-inner-card"></div>
+                </div>
+                <div class="commission-title">Commission Title</div>
+                <div class="username">Username</div>
+            </div>
+            <div class="commission-card">
+                <div class="commission-image"></div>
+                <div class="avatar-card">
+                    <div class="avatar-inner-card"></div>
+                </div>
+                <div class="commission-title">Commission Title</div>
+                <div class="username">Username</div>
+            </div>
+            <div class="commission-card">
+                <div class="commission-image"></div>
+                <div class="avatar-card">
+                    <div class="avatar-inner-card"></div>
+                </div>
+                <div class="commission-title">Commission Title</div>
+                <div class="username">Username</div>
+            </div>
+            <div class="commission-card">
+              <div class="commission-image"></div>
+              <div class="avatar-card">
+                  <div class="avatar-inner-card"></div>
+              </div>
+              <div class="commission-title">Commission Title</div>
+              <div class="username">Username</div>
+          </div>
+          <div class="commission-card">
+            <div class="commission-image"></div>
+            <div class="avatar-card">
+                <div class="avatar-inner-card"></div>
+            </div>
+            <div class="commission-title">Commission Title</div>
+            <div class="username">Username</div>
+          </div>
+          <div class="commission-card">
+            <div class="commission-image"></div>
+            <div class="avatar-card">
+                <div class="avatar-inner-card"></div>
+            </div>
+            <div class="commission-title">Commission Title</div>
+            <div class="username">Username</div>
+          </div>
+        </div>
+    </div>
+
+    <div class="popup-overlay" id="popup">
+        <div class="popup-content">
+            <button class="close-btn" id="closePopup">&times;</button>
+            <div class="popup-header">Commission Title</div>
+            <div class="images">
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+            </div>
+            <div class="popup-body">
+                Commission description and details<br/><br/>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor 
+                in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.
+                <br><br>
+                <a href="request.html" class="request-button">Request</a>
+            </div>
+            
+
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+    const commissionCards = document.querySelectorAll(".commission-card");
+    const popup = document.getElementById("popup");
+    const closePopup = document.getElementById("closePopup");
+
+    commissionCards.forEach(card => {
+        card.addEventListener("click", function () {
+            popup.style.display = "flex";
+        });
+    });
+
+    closePopup.addEventListener("click", function () {
+        popup.style.display = "none";
+    });
+
+    popup.addEventListener("click", function (event) {
+        if (event.target === popup) {
+            popup.style.display = "none";
+        }
+    });
+});
+    </script>
+</body>
+</html>

@@ -1,6 +1,4 @@
 #!/bin/bash
 
 # Navigate to the commanager directory
-cd commanager/client || { echo "Error: commanager directory not found."; exit 1; }
-
-npm start
+python -m commanager.server.app

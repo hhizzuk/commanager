@@ -7,7 +7,7 @@ python3 -m venv env
 source env/bin/activate
 
 pip install -r requirements.txt
-pip install -e .
+pip install flask
+pip install python-dotenv
 
-cd commanager/client || { echo "Error: commanager directory not found."; exit 1; }
-npm ci .
+cd commanager || { echo "Error: commanager directory not found."; exit 1; }

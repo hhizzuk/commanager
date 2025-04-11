@@ -1,0 +1,88 @@
+/* Profile Header - Two Column Layout */
+.profile-header {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 2px solid #ddd;
+}
+
+/* Profile Picture on the Left */
+.profile-pic {
+    width: 150px; /* Adjust size */
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0; /* Prevent shrinking */
+    margin-right: 20px; /* Add spacing between picture and text */
+}
+
+/* Profile Info on the Right */
+.profile-info {
+    flex-grow: 1; /* Takes up remaining space */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.username {
+    margin: 0;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.bio, .social-media {
+    margin: 8px 0;
+    color: #555;
+}
+
+.skills {
+    margin-top: 10px;
+}
+
+.tag {
+    display: inline-block;
+    background: #ddd;
+    padding: 5px 12px;
+    border-radius: 15px;
+    margin-right: 5px;
+}
+
+/* Toggle Bar Styles */
+.toggle-bar {
+    display: flex;
+    justify-content: space-around; /* Evenly distribute tabs */
+    align-items: center;
+    background-color: #f5f5f5;
+    border-bottom: 2px solid #ccc;
+    padding: 10px 0;
+}
+
+/* Toggle Buttons */
+.toggle-btn {
+    flex: 1; /* Each takes equal space */
+    text-align: center;
+    padding: 12px 0;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Active Tab */
+.toggle-btn.active {
+    background-color: #18A0FB;
+    color: white;
+}
+
+/* Hover Effect */
+.toggle-btn:hover {
+    background-color: #ddd;
+}
+
+.content-section {
+    display: none; /* Hide all sections by default */
+}
+
+.content-section.active {
+    display: block; /* Show only the active section */
+}
