@@ -21,6 +21,7 @@
             <img src="{{ url_for('static', filename='images/profile.png') }}" alt="User Avatar" class="profile-pic">
             <div class="profile-info">
                 <h1 class="username">{{ username }}</h1>
+                <h3 class="bio">Rating: {{ rating }}</h3>
                 <p class="bio">{{ bio }}</p>
                 <p class="bio">{{ email }}</p>
                 <p class="social-media">Social Media @username</p>
@@ -73,7 +74,8 @@
                 <div class="container">
                     <div class="main-content">
                         {% for service in services %}
-                            <div class="commission-image"></div>
+                            <div class="commission-card">
+                                <div class="commission-image"></div>
                                 <div class="commission-title">{{ service['title'] }}</div>
                                 <div class="description">
                                     {{ service['description'] }}

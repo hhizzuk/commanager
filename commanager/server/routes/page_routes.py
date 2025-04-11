@@ -1,4 +1,8 @@
 from flask import render_template, session, redirect, url_for, abort
+from supabase import create_client
+from commanager.server import config
+supabase_admin = create_client(config.SUPABASE_URL, config.SUPABASE_SERVICE_ROLE_KEY)
+supabase_user = create_client(config.SUPABASE_URL, config.SUPABASE_ANON_KEY)
 
 def setup_page_routes(app):
     def get_authorized_user():
@@ -18,7 +22,30 @@ def setup_page_routes(app):
             return redirect(url_for('login'))
         if username != current_user:
             abort(403)  # Forbidden if accessing other user's profile
-        return render_template('user.html', username=current_user)
+
+        uid = session['user']
+        username = session['username']
+        user_data = supabase_user.table('users').select('profile_urls', 'pfp', 'rating', 'bio', 'social_media_links', 'email').eq('uid', uid).single().execute()
+        services = supabase_user.table('services').select('*').eq('uid', uid).execute().data
+        if not services:
+            services = []
+        reviews = supabase_user.table('reviews').select('*').eq('reviewee_id', uid).execute().data
+        if not reviews:
+            reviews = []
+        
+        context = {
+            "uid": uid,
+            "pfp": user_data.data['pfp'],
+            "bio": user_data.data['bio'],
+            "sm_links": user_data.data['social_media_links'],
+            "email": user_data.data['email'],
+            "services": services,
+            "portfolio": user_data.data['profile_urls'],
+            "reviews": reviews,
+            "rating": user_data.data['rating']
+        }
+
+        return render_template('user.html', **context, username=current_user)
 
     @app.route('/user/<username>/messages')
     def user_messages(username):
