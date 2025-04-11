@@ -43,32 +43,24 @@
         const input = document.getElementById('userInput');
         const sendBtn = document.getElementById('sendBtn');
         const chat = document.getElementById('chat');
-        const chatButtons = document.querySelectorAll('.sidebar ul li');
-        
-        sendBtn.addEventListener('click', sendMessage);
-        input.addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') sendMessage();
-        });
+        const chatItems = document.querySelectorAll('.sidebar ul li');
     
-        chatButtons.forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.querySelectorAll('.sidebar ul li').forEach(el => el.classList.remove('selected'));
-                btn.classList.add('selected');
-            });
-        });
-    
+        // Function to send a message
         function sendMessage() {
             const message = input.value.trim();
             if (!message) return;
         
+            // Create and append the user's message
             const userMessage = document.createElement('div');
             userMessage.className = 'message userInput';
             userMessage.innerText = message;
             chat.appendChild(userMessage);
         
+            // Clear the input field and scroll to the bottom
             input.value = '';
             chat.scrollTop = chat.scrollHeight;
         
+            // Simulate a bot response after a short delay
             setTimeout(() => {
                 const botMessage = document.createElement('div');
                 botMessage.className = 'message bot';
@@ -77,6 +69,24 @@
                 chat.scrollTop = chat.scrollHeight;
             }, 1000);
         }
+    
+        // Event listener for the send button
+        sendBtn.addEventListener('click', sendMessage);
+    
+        // Event listener for the Enter key in the input field
+        input.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') sendMessage();
+        });
+    
+        // Event listeners for chat item selection
+        chatItems.forEach(item => {
+            item.addEventListener('click', () => {
+                // Remove 'selected' class from all chat items
+                chatItems.forEach(el => el.classList.remove('selected'));
+                // Add 'selected' class to the clicked chat item
+                item.classList.add('selected');
+            });
+        });
     });
 
     </script>
