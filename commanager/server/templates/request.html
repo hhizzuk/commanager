@@ -125,13 +125,21 @@
 
         // A simple callback implementation.
         function pickerCallback(data) {
-            const url = 'nothing';
             if (data[google.picker.Response.ACTION] == google.picker.Action.PICKED) {
                 const doc = data[google.picker.Response.DOCUMENTS][0];
-                url = doc[google.picker.Document.URL];
+
+                selectedGoogleDriveFile = {
+                    name: doc.name,
+                    url: doc.url,
+                    id: doc.id
+                };
+
+                // Update the UI
+                const driveFileLabel = document.querySelectorAll('.file-name')[1];  // second one
+                driveFileLabel.textContent = doc.name;
+
+                console.log("Selected file from Drive:", doc);
             }
-            const message = `You picked: ${url}`;
-            document.getElementById('result').textContent = message;
         }
 
         // Continue button behavior
@@ -169,6 +177,14 @@
         window.addEventListener('click', function(e) {
             if (e.target === modal) {
                 modal.style.display = 'none';
+            }
+        });
+
+        document.getElementById('drive-button').addEventListener('click', function () {
+            if (pickerInited && gisInited) {
+                createPicker();
+            } else {
+                alert("Google Drive is not fully initialized yet. Please wait a moment and try again.");
             }
         });
     </script>
