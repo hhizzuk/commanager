@@ -4,12 +4,12 @@ from commanager.server import config
 supabase_admin = create_client(config.SUPABASE_URL, config.SUPABASE_SERVICE_ROLE_KEY)
 supabase_user = create_client(config.SUPABASE_URL, config.SUPABASE_ANON_KEY)
 
+def get_authorized_user():
+    if 'username' not in session:
+        return None
+    return session['username']
+
 def setup_page_routes(app):
-    def get_authorized_user():
-        if 'username' not in session:
-            return None
-        return session['username']
-    
     @app.route('/')
     def home():
         if not (username := get_authorized_user()):
@@ -44,6 +44,8 @@ def setup_page_routes(app):
             "reviews": reviews,
             "rating": user_data.data['rating']
         }
+
+        print("Profile picture path:", user_data.data['pfp'])
 
         return render_template('user.html', **context, username=current_user)
 
@@ -82,3 +84,15 @@ def setup_page_routes(app):
         if username != current_user:
             abort(403)
         return render_template('settings.html', username=current_user)
+
+    @app.context_processor
+    def inject_user_pfp():
+        if 'user' not in session:
+            return {}
+
+        uid = session['user']
+        try:
+            user_data = supabase_user.table('users').select('pfp').eq('uid', uid).single().execute()
+            return {'pfp': user_data.data.get('pfp', None)}
+        except Exception:
+            return {'pfp': None}

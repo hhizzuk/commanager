@@ -45,3 +45,4 @@ Icon
 
 .env
 myenv
+commanager/server/static/uploads/*

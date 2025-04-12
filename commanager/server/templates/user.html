@@ -18,7 +18,7 @@
     <div class="profile-container">
         <!-- Top Section: Profile Info -->
         <div class="profile-header">
-            <img src="{{ url_for('static', filename='images/profile.png') }}" alt="User Avatar" class="profile-pic">
+            <img src="{{ pfp if pfp else url_for('static', filename='images/profile.png') }}" alt="User Avatar" class="profile-pic">
             <div class="profile-info">
                 <h1 class="username">{{ username }}</h1>
                 <h3 class="bio">Rating: {{ rating }}</h3>
@@ -31,6 +31,30 @@
                     <span class="tag">Tag</span>
                 </div>
             </div>
+            
+            <button class="edit-profile-btn" onclick="openProfileModal()">Edit Profile</button>
+
+            <!-- Edit Profile Modal -->
+            <div class="profile-modal-overlay" id="editProfileModal">
+                <div class="profile-modal-content">
+                  <button class="close-btn" onclick="closeProfileModal()">&times;</button>
+                  <h3>Edit Your Profile</h3>
+                  <form id="profileForm" method="POST" action="{{ url_for('update_profile') }}" enctype="multipart/form-data">
+                    <label for="editBio">Bio:</label>
+                    <textarea id="editBio" name="bio" rows="4" placeholder="Tell us about yourself...">{{ bio }}</textarea>
+
+                    <label for="editSocialLinks">Social Media Links:</label>
+                    <input type="text" id="editSocialLinks" name="social_links" placeholder="e.g., https://instagram.com/yourprofile" value="{{ sm_links }}">
+ 
+                    <label for="editProfilePic">Profile Picture:</label>
+                    <input type="file" id="editProfilePic" name="profile_picture" accept="image/*">
+                
+                    <button type="submit">Save Changes</button>
+                  </form>
+                </div>
+            </div>
+  
+
         </div>
 
         <!-- Toggle Navigation -->
@@ -66,7 +90,7 @@
         <!-- Bottom Section: Toggle Content -->
         <div class="profile-content">
             <div id="services" class="content-section active">
-                <div class="services-header">
+                <div class="section-header">
                     <h2>Services</h2>
                         <button type="submit" class="add-service-btn" onclick="openServiceModal()">+ Add Service</button>
                   </div>
@@ -110,6 +134,7 @@
                     {% endfor %}
                 </div>
             </div>
+
             <div id="reviews" class="content-section">
                 <h2>Reviews</h2>
                 <p>Customer reviews and ratings.</p>
@@ -247,6 +272,14 @@
 
     function closeServiceModal() {
     document.getElementById("serviceModal").style.display = "none";
+    }
+
+    function openProfileModal() {
+      document.getElementById("editProfileModal").style.display = "flex";
+    }
+
+    function closeProfileModal() {
+      document.getElementById("editProfileModal").style.display = "none";
     }
 
     document.getElementById("serviceForm").addEventListener("submit", function (e) {

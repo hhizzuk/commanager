@@ -95,6 +95,7 @@ a:hover {
 .user {
   color: #18A0FB;
   padding-right: 15px;
+  font-weight: bold;
 }
 
 .profile-menu {
