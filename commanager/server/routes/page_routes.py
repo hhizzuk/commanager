@@ -27,6 +27,7 @@ def setup_page_routes(app):
         username = session['username']
         user_data = supabase_user.table('users').select('profile_urls', 'pfp', 'rating', 'bio', 'social_media_links', 'email').eq('uid', uid).single().execute()
         services = supabase_user.table('services').select('*').eq('uid', uid).execute().data
+        portfolio = supabase_user.table('portfolio').select('*').eq('uid', uid).execute().data or []
         if not services:
             services = []
         reviews = supabase_user.table('reviews').select('*').eq('reviewee_id', uid).execute().data
@@ -40,12 +41,10 @@ def setup_page_routes(app):
             "sm_links": user_data.data['social_media_links'],
             "email": user_data.data['email'],
             "services": services,
-            "portfolio": user_data.data['profile_urls'],
+            "portfolio": portfolio,
             "reviews": reviews,
             "rating": user_data.data['rating']
         }
-
-        print("Profile picture path:", user_data.data['pfp'])
 
         return render_template('user.html', **context, username=current_user)
 

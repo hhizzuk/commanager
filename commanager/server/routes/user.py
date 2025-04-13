@@ -145,17 +145,3 @@ def setup_user_routes(app):
         print("Supabase response:", response)
 
         return redirect(url_for('user_profile', username=current_user))
-
-
-        #     # Check if the response indicates a failure.
-        #     if response.status_code not in [200, 201]:
-        #         print("Supabase insertion failed:", response)
-        #         return jsonify({'error': 'Failed to insert portfolio entry', 'details': response.data}), 400
-
-        #     return jsonify({'message': 'Portfolio added successfully'}), 200
-
-        # except Exception as e:
-        #     # Catch any unexpected errors and return them as JSON.
-        #     print("Unexpected error:", e)
-        #     return jsonify({'error': f'Internal Server Error: {str(e)}'}), 500
-
