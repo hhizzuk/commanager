@@ -64,77 +64,98 @@
             <button class="toggle-btn" onclick="showSection(event, 'reviews')">Reviews</button>
 
         </div>
-            <!-- Add Service Modal -->
+    <!-- Add Service Modal -->
     <div class="service-modal-overlay" id="serviceModal">
         <div class="service-modal-content">
-        <button class="close-btn" onclick="closeServiceModal()">&times;</button>
-        <h3>Add a Service</h3>
-        <form id="serviceForm">
+          <button class="close-btn" onclick="closeServiceModal()">&times;</button>
+          <h3>Add a Service</h3>
+          <!-- Single service form -->
+          <form id="serviceForm" method="POST" action="{{ url_for('add_service') }}" enctype="multipart/form-data">
             <label for="serviceTitle">Title:</label>
             <input type="text" id="serviceTitle" name="title" required>
-    
             <label for="serviceDescription">Description:</label>
             <textarea id="serviceDescription" name="description" rows="4" required></textarea>
-    
             <label for="servicePrice">Price (optional):</label>
             <input type="text" id="servicePrice" name="price" placeholder="$100">
-    
             <label for="serviceImage">Image (optional):</label>
             <input type="file" id="serviceImage" name="image" accept="image/*">
-    
             <button type="submit">Add Service</button>
-        </form>
+          </form>
         </div>
-    </div>
-    
-        <!-- Bottom Section: Toggle Content -->
-        <div class="profile-content">
-            <div id="services" class="content-section active">
-                <div class="section-header">
-                    <h2>Services</h2>
-                        <button type="submit" class="add-service-btn" onclick="openServiceModal()">+ Add Service</button>
-                  </div>
-                <p>Commission listings and details go here.</p>
-                <div class="container">
-                    <div class="main-content">
-                        {% for service in services %}
-                            <div class="commission-card">
-                                <div class="commission-image"></div>
-                                <div class="commission-title">{{ service['title'] }}</div>
-                                <div class="description">
-                                    {{ service['description'] }}
-                                </div>
-                            </div>
-                        {% endfor %}
-                        <div class="commission-card">
-                            <div class="commission-image"></div>
-                            <div class="commission-title">Commission Title</div>
-                            <div class="description">
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                                Voluptas ullam consectetur ut, iusto unde est.
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+      </div>
 
-            <div id="portfolio" class="content-section">
-                <div class="section-header">
-                    <h2>Portfolio</h2>
-                    <button id="addPortfolioBtn" class="add-portfolio-btn" onclick="openPortfolioModal()" style="display: none;">
-                        + Add to Portfolio
-                    </button>
+       <!-- Portfolio Modal -->
+    <div class="portfolio-modal-overlay" id="portfolioModal">
+        <div class="portfolio-modal-content">
+          <button class="close-btn" onclick="closePortfolioModal()">&times;</button>
+          <h3>Add to Portfolio</h3>
+          <!-- Portfolio form -->
+          <form id="portfolioForm" method="POST" action="{{ url_for('add_portfolio') }}" enctype="multipart/form-data">
+            <label for="portfolioTitle">Title:</label>
+            <input type="text" id="portfolioTitle" name="title" required>
+            <label for="portfolioDescription">Description:</label>
+            <textarea id="portfolioDescription" name="description" rows="4" required></textarea>
+            <label for="portfolioImage">Image:</label>
+            <input type="file" id="portfolioImage" name="image" accept="image/*" required>
+            <button type="submit">Add</button>
+          </form>
+        </div>
+      </div>
+  
+      <!-- Profile Content -->
+      <div class="profile-content">
+        <!-- Services Section -->
+        <div id="services" class="content-section active">
+          <div class="section-header">
+            <h2>Services</h2>
+            <button type="button" class="add-service-btn" onclick="openServiceModal()">+ Add Service</button>
+          </div>
+          <p>Commission listings and details go here.</p>
+          <div class="container">
+            <div class="main-content">
+              {% for service in services %}
+                <div class="commission-card">
+                  {% if service['image_url'] %}
+                    <img src="{{ service['image_url'] }}" alt="Service image" class="commission-image">
+                  {% else %}
+                    <!-- Option B: Omit the image or display alternative content -->
+                    {# <p>No image available</p> #}
+                  {% endif %}
+                  <div class="commission-title">{{ service['title'] }}</div>
+                  <div class="description">{{ service['description'] }}</div>
                 </div>
-                <p>Showcase past work.</p>
-                <div class="main-content">
-                    {% for img in portfolio %}
-                    <div class="port-img">
-                        {{ img }}
-                    </div>
-                    {% endfor %}
+              {% endfor %}
+              <!-- Dummy card (optional) -->
+              <div class="commission-card">
+                <div class="commission-image"></div>
+                <div class="commission-title">Commission Title</div>
+                <div class="description">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas ullam consectetur ut, iusto unde est.
                 </div>
+              </div>
             </div>
-
+          </div>
+        </div>
+  
+        <!-- Portfolio Section -->
+        <div id="portfolio" class="content-section">
+          <div class="section-header">
+            <h2>Portfolio</h2>
+            <button id="addPortfolioBtn" class="add-portfolio-btn" onclick="openPortfolioModal()" style="display: none;">+ Add to Portfolio</button>
+          </div>
+          <p>Showcase past work.</p>
+          <div class="main-content">
+            {% for item in portfolio %}
+              <div class="portfolio-item">
+                <img src="{{ item.img }}" alt="{{ item.title }}" class="portfolio-image">
+                <div class="portfolio-overlay">
+                  <h3 class="portfolio-title">{{ item.title }}</h3>
+                  <p class="portfolio-description">{{ item.description }}</p>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
             <div id="reviews" class="content-section">
                 <h2>Reviews</h2>
                 <p>Customer reviews and ratings.</p>
@@ -162,27 +183,6 @@
             </div>
         </div>
     </div>
-    <!-- Add Portfolio Modal -->
-<div class="portfolio-modal-overlay" id="portfolioModal">
-    <div class="portfolio-modal-content">
-        <button class="close-btn" onclick="closePortfolioModal()">&times;</button>
-        <h3>Add to Portfolio</h3>
-        <form id="portfolioForm">
-            <label for="portfolioTitle">Title:</label>
-            <input type="text" id="portfolioTitle" name="title" required>
-
-            <label for="portfolioDescription">Description:</label>
-            <textarea id="portfolioDescription" name="description" rows="4" required></textarea>
-
-            <label for="portfolioImage">Image:</label>
-            <input type="file" id="portfolioImage" name="image" accept="image/*" required>
-
-            <button type="submit">Add</button>
-        </form>
-    </div>
-</div>
-
-
     <!-- Scripts -->
     <script>
     // Toggle Section Functionality
@@ -248,24 +248,41 @@
         document.getElementById("portfolioModal").style.display = "none";
     }
 
-    // You can later add real backend logic here
-    document.getElementById("portfolioForm").addEventListener("submit", function (e) {
-        e.preventDefault();
-
-        const title = document.getElementById("portfolioTitle").value;
-        const description = document.getElementById("portfolioDescription").value;
-        const imageFile = document.getElementById("portfolioImage").files[0];
-
-        alert(`(Mock Upload)\nTitle: ${title}\nDescription: ${description}\nImage: ${imageFile.name}`);
-
-        // Close modal
-        closePortfolioModal();
-
-        // Clear form
-        this.reset();
-
-        // Later, you can append it to the portfolio section visually
+    document.getElementById("portfolioForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+      const formData = new FormData(this);
+      
+      try {
+        const response = await fetch("{{ url_for('add_portfolio') }}", {
+          method: "POST",
+          body: formData
+        });
+        
+        // Check if the content type is JSON
+        const contentType = response.headers.get("content-type");
+        let data;
+        if (contentType && contentType.indexOf("application/json") !== -1) {
+          data = await response.json();
+        } else {
+          // If not JSON, you can log the raw text to debug:
+          data = await response.text();
+          console.error("Expected JSON but got text:", data);
+        }
+        
+        if (response.ok) {
+          alert("Portfolio added successfully!");
+          closePortfolioModal();
+          this.reset();
+        } else {
+          console.error("Server error response:", data);
+          alert("Failed to add portfolio entry: " + (data.error || response.statusText));
+        }
+      } catch (err) {
+        console.error("Fetch error:", err);
+        alert("Failed to add portfolio entry due to a network or JavaScript error.");
+      }
     });
+
     function openServiceModal() {
     document.getElementById("serviceModal").style.display = "flex";
     }
@@ -282,19 +299,30 @@
       document.getElementById("editProfileModal").style.display = "none";
     }
 
-    document.getElementById("serviceForm").addEventListener("submit", function (e) {
-    e.preventDefault();
-
-    const title = document.getElementById("serviceTitle").value;
-    const description = document.getElementById("serviceDescription").value;
-    const price = document.getElementById("servicePrice").value || "N/A";
-    const imageFile = document.getElementById("serviceImage").files[0];
-
-    alert(`(Mock Upload)\nService: ${title}\nDescription: ${description}\nPrice: ${price}\nImage: ${imageFile ? imageFile.name : "No image"}`);
-
-    closeServiceModal();
-    this.reset();
+    document.getElementById("serviceForm").addEventListener("submit", async function (e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+        try {
+            const response = await fetch("{{ url_for('add_service') }}", {
+            method: "POST",
+            body: formData,
+            });
+            if (response.ok) {
+            alert("Service added successfully!");
+            closeServiceModal();
+            this.reset();
+            } else {
+            // Log error message
+            const errorData = await response.json();
+            console.error("Error response:", errorData);
+            alert("Failed to add service: " + (errorData.error || response.statusText));
+            }
+        } catch (err) {
+            console.error("Fetch error:", err);
+            alert("Failed to add service due to network or JS error.");
+        }
     });
+
 
 
     </script>
