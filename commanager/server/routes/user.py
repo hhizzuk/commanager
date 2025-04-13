@@ -110,16 +110,12 @@ def setup_user_routes(app):
             'title': title,
             'description': description,
             'price': price,
-            'image_urls': service_image_url,
+            'image_urls': [service_image_url] if service_image_url else [],
         }
 
         response = supabase_user.table('services').insert(service_data).execute()
 
-        if response.error:
-            print("Supabase error:", response.error)
-            return jsonify({'error': response.error}), 400
-
-        return jsonify({'message': 'Service added successfully'}), 200
+        return redirect(url_for('user_profile', username=current_user))
 
 
     @app.route('/add_portfolio', methods=['POST'])

@@ -299,29 +299,29 @@
       document.getElementById("editProfileModal").style.display = "none";
     }
 
-    document.getElementById("serviceForm").addEventListener("submit", async function (e) {
-        e.preventDefault();
-        const formData = new FormData(this);
-        try {
-            const response = await fetch("{{ url_for('add_service') }}", {
-            method: "POST",
-            body: formData,
-            });
-            if (response.ok) {
-            alert("Service added successfully!");
-            closeServiceModal();
-            this.reset();
-            } else {
-            // Log error message
-            const errorData = await response.json();
-            console.error("Error response:", errorData);
-            alert("Failed to add service: " + (errorData.error || response.statusText));
-            }
-        } catch (err) {
-            console.error("Fetch error:", err);
-            alert("Failed to add service due to network or JS error.");
-        }
-    });
+    // document.getElementById("serviceForm").addEventListener("submit", async function (e) {
+    //     e.preventDefault();
+    //     const formData = new FormData(this);
+    //     try {
+    //         const response = await fetch("{{ url_for('add_service') }}", {
+    //         method: "POST",
+    //         body: formData,
+    //         });
+    //         if (response.ok) {
+    //         alert("Service added successfully!");
+    //         closeServiceModal();
+    //         this.reset();
+    //         } else {
+    //         // Log error message
+    //         const errorData = await response.json();
+    //         console.error("Error response:", errorData);
+    //         alert("Failed to add service: " + (errorData.error || response.statusText));
+    //         }
+    //     } catch (err) {
+    //         console.error("Fetch error:", err);
+    //         alert("Failed to add service due to network or JS error.");
+    //     }
+    // });
 
 
 
