@@ -124,39 +124,38 @@ def setup_user_routes(app):
             # Return JSON for unauthorized access instead of redirect
             return jsonify({'error': 'User not authorized'}), 401
         
-        try:
-            uid = session['user']
-            title = request.form.get('title')
-            description = request.form.get('description')
-            file = request.files.get('image')
-            portfolio_image_url = None
+        uid = session['user']
+        title = request.form.get('title')
+        description = request.form.get('description')
+        file = request.files.get('image')
+        portfolio_image_url = None
+        if file and file.filename != '':
+            filename = secure_filename(file.filename)
+            upload_path = os.path.join('commanager', 'server', 'static', 'uploads', 'portfolio')
+            os.makedirs(upload_path, exist_ok=True)
+            portfolio_image_url = f"/static/uploads/portfolio/{filename}"
+            file.save(os.path.join(upload_path, filename))
+        portfolio_data = {
+            'uid': uid,
+            'title': title,
+            'description': description,
+            'img': portfolio_image_url,
+        }
+        response = supabase_user.table('portfolio').insert(portfolio_data).execute()
+        print("Supabase response:", response)
 
-            if file and file.filename != '':
-                filename = secure_filename(file.filename)
-                upload_path = os.path.join('commanager', 'server', 'static', 'uploads', 'portfolio')
-                os.makedirs(upload_path, exist_ok=True)
-                portfolio_image_url = f"/static/uploads/portfolio/{filename}"
-                file.save(os.path.join(upload_path, filename))
+        return redirect(url_for('user_profile', username=current_user))
 
-            portfolio_data = {
-                'uid': uid,
-                'title': title,
-                'description': description,
-                'img': portfolio_image_url,
-            }
 
-            response = supabase_user.table('portfolio').insert(portfolio_data).execute()
-            print("Supabase response:", response)
+        #     # Check if the response indicates a failure.
+        #     if response.status_code not in [200, 201]:
+        #         print("Supabase insertion failed:", response)
+        #         return jsonify({'error': 'Failed to insert portfolio entry', 'details': response.data}), 400
 
-            # Check if the response indicates a failure.
-            if response.status_code not in [200, 201]:
-                print("Supabase insertion failed:", response)
-                return jsonify({'error': 'Failed to insert portfolio entry', 'details': response.data}), 400
+        #     return jsonify({'message': 'Portfolio added successfully'}), 200
 
-            return jsonify({'message': 'Portfolio added successfully'}), 200
-
-        except Exception as e:
-            # Catch any unexpected errors and return them as JSON.
-            print("Unexpected error:", e)
-            return jsonify({'error': f'Internal Server Error: {str(e)}'}), 500
+        # except Exception as e:
+        #     # Catch any unexpected errors and return them as JSON.
+        #     print("Unexpected error:", e)
+        #     return jsonify({'error': f'Internal Server Error: {str(e)}'}), 500
 
