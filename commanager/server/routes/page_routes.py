@@ -14,26 +14,38 @@ def setup_page_routes(app):
     def home():
         if not (username := get_authorized_user()):
             return redirect(url_for('login'))
-        return render_template('home.html', username=username)
+
+        services = supabase_user.table('services').select('*').execute().data or []
+        users = supabase_user.table('users').select('uid, username').execute().data or []
+
+        uid_to_username = {str(user['uid']): user['username'] for user in users}
+
+        for service in services:
+            service_uid = str(service['uid'])
+            service['username'] = uid_to_username.get(service_uid, 'unknown')
+            print(f"[DEBUG] {service['title']} by UID {service_uid} → {service['username']}")
+
+        return render_template('home.html', username=username, services=services)
 
     @app.route('/user/<username>/')
     def user_profile(username):
         if not (current_user := get_authorized_user()):
             return redirect(url_for('login'))
-        if username != current_user:
-            abort(403)  # Forbidden if accessing other user's profile
 
-        uid = session['user']
-        username = session['username']
-        user_data = supabase_user.table('users').select('profile_urls', 'pfp', 'rating', 'bio', 'social_media_links', 'email').eq('uid', uid).single().execute()
-        services = supabase_user.table('services').select('*').eq('uid', uid).execute().data
+        # 🔍 Fetch user data by username
+        user_data = supabase_admin.table('users') .select('uid', 'pfp', 'rating', 'bio', 'social_media_links', 'email').eq('username', username).single().execute()
+
+        if not user_data.data:
+            abort(404, description="User not found")
+
+        uid = user_data.data['uid']
+
+        # ✅ Now fetch all content related to that UID
+        services = supabase_user.table('services').select('*').eq('uid', uid).execute().data or []
         portfolio = supabase_user.table('portfolio').select('*').eq('uid', uid).execute().data or []
-        if not services:
-            services = []
-        reviews = supabase_user.table('reviews').select('*').eq('reviewee_id', uid).execute().data
-        if not reviews:
-            reviews = []
-        
+        reviews = supabase_user.table('reviews').select('*').eq('reviewee_id', uid).execute().data or []
+
+
         context = {
             "uid": uid,
             "pfp": user_data.data['pfp'],
@@ -46,7 +58,7 @@ def setup_page_routes(app):
             "rating": user_data.data['rating']
         }
 
-        return render_template('user.html', **context, username=current_user)
+        return render_template('user.html', **context, username=username)
 
     @app.route('/user/<username>/messages')
     def user_messages(username):
