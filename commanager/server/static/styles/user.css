@@ -162,6 +162,7 @@
     font-weight: bold;
 }
 
+
 #portfolioForm input[type="text"],
 #portfolioForm textarea,
 #portfolioForm input[type="file"] {
@@ -606,4 +607,164 @@
 
 .delete-btn:hover {
     background-color: #c82333;
+}
+/* Review Section Styles */
+.review-form {
+    background: #f8f8f8;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    border: 1px solid #ddd;
+}
+
+.review-form h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #333;
+    font-size: 18px;
+}
+
+.rating-stars {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    margin-bottom: 15px;
+}
+
+.rating-stars input {
+    display: none;
+}
+
+.rating-stars label {
+    color: #ccc;
+    font-size: 28px;
+    cursor: pointer;
+    padding: 0 3px;
+    transition: color 0.2s;
+}
+
+.rating-stars input:checked ~ label,
+.rating-stars label:hover,
+.rating-stars label:hover ~ label {
+    color: #18A0FB;
+}
+
+#reviewComment {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    min-height: 100px;
+    resize: vertical;
+    font-family: inherit;
+}
+
+.review-form button {
+    background-color: #18A0FB;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.review-form button:hover {
+    background-color: #1493e4;
+}
+
+.reviews-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.review-item {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    position: relative;
+}
+
+.review-item.verified {
+    border-left: 4px solid #18A0FB;
+}
+
+.review-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.reviewer {
+    font-weight: bold;
+    color: #333;
+}
+
+.review-stars {
+    display: inline-flex;
+    margin: 0 10px;
+}
+
+.review-stars .star {
+    color: #ccc;
+    font-size: 16px;
+}
+
+.review-stars .star.filled {
+    color: #ffc107;
+}
+.verified-badge {
+    background-color: #18A0FB;
+    color: white;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.verified-badge::before {
+    content: "✓";
+    font-weight: bold;
+}
+
+.review-comment {
+    margin: 10px 0;
+    color: #333;
+    line-height: 1.5;
+}
+
+.review-date {
+    color: #777;
+    font-size: 12px;
+    text-align: right;
+}
+
+/* Empty state */
+.reviews-list:empty::after {
+    content: "No reviews yet.";
+    color: #777;
+    text-align: center;
+    padding: 20px;
+}
+.delete-review-btn {
+    background-color: #ff4444;
+    color: white;
+    border: none;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.delete-review-btn:hover {
+    background-color: #cc0000;
 }
