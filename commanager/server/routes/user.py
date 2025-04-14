@@ -145,3 +145,56 @@ def setup_user_routes(app):
         print("Supabase response:", response)
 
         return redirect(url_for('user_profile', username=current_user))
+
+    @app.route('/edit_portfolio', methods=['POST'])
+    def edit_portfolio():
+        if not (current_user := get_authorized_user()):
+            return jsonify({'error': 'User not authorized'}), 401
+        
+        uid = session['user']
+        portfolio_id = request.form.get('portfolio_id')
+        title = request.form.get('title')
+        description = request.form.get('description')
+        file = request.files.get('image')
+        
+        # Verify the portfolio item belongs to the user
+        portfolio_item = supabase_user.table('portfolio').select('*').eq('pid', portfolio_id).eq('uid', uid).execute()
+        if not portfolio_item.data:
+            return jsonify({'error': 'Portfolio item not found or unauthorized'}), 404
+
+        # Prepare update data
+        update_data = {
+            'title': title,
+            'description': description,
+        }
+
+        # Handle image upload if a new image was provided
+        if file and file.filename != '':
+            filename = secure_filename(file.filename)
+            upload_path = os.path.join('commanager', 'server', 'static', 'uploads', 'portfolio')
+            os.makedirs(upload_path, exist_ok=True)
+            portfolio_image_url = f"/static/uploads/portfolio/{filename}"
+            file.save(os.path.join(upload_path, filename))
+            update_data['img'] = portfolio_image_url
+
+        # Update the portfolio item
+        response = supabase_user.table('portfolio').update(update_data).eq('pid', portfolio_id).eq('uid', uid).execute()
+        
+        return redirect(url_for('user_profile', username=current_user))
+
+    @app.route('/delete_portfolio/<portfolio_id>', methods=['POST'])
+    def delete_portfolio(portfolio_id):
+        if not (current_user := get_authorized_user()):
+            return jsonify({'error': 'User not authorized'}), 401
+        
+        uid = session['user']
+        
+        # Verify the portfolio item belongs to the user
+        portfolio_item = supabase_user.table('portfolio').select('*').eq('pid', portfolio_id).eq('uid', uid).execute()
+        if not portfolio_item.data:
+            return jsonify({'error': 'Portfolio item not found or unauthorized'}), 404
+
+        # Delete the portfolio item
+        response = supabase_user.table('portfolio').delete().eq('pid', portfolio_id).eq('uid', uid).execute()
+        
+        return jsonify({'message': 'Portfolio item deleted successfully'})

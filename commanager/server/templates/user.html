@@ -136,13 +136,16 @@
           <div class="section-header">
             <h2>Portfolio</h2>
             {% if username == current_user %}
-              <button id="addPortfolioBtn" class="add-portfolio-btn" onclick="openPortfolioModal()">+ Add to Portfolio</button>
+              <div class="portfolio-buttons">
+                <button id="addPortfolioBtn" class="add-portfolio-btn" onclick="openPortfolioModal()">+ Add to Portfolio</button>
+                <button id="editPortfolioBtn" class="edit-portfolio-btn" onclick="openEditPortfolioModal()">Edit Portfolio</button>
+              </div>
             {% endif %}
           </div>
           <p>Showcase past work.</p>
           <div class="main-content">
             {% for item in portfolio %}
-              <div class="portfolio-item">
+              <div class="portfolio-item" onclick="openPortfolioImageModal('{{ item.img }}', '{{ item.title }}', '{{ item.description }}')">
                 <img src="{{ item.img }}" alt="{{ item.title }}" class="portfolio-image">
                 <div class="portfolio-overlay">
                   <h3 class="portfolio-title">{{ item.title }}</h3>
@@ -152,10 +155,50 @@
             {% endfor %}
           </div>
         </div>
-            <div id="reviews" class="content-section">
-                <h2>Reviews</h2>
-                <p>Customer reviews and ratings.</p>
+
+        <!-- Edit Portfolio Modal -->
+        <div class="portfolio-modal-overlay" id="editPortfolioModal">
+          <div class="portfolio-modal-content edit-portfolio-list">
+            <button class="close-btn" onclick="closeEditPortfolioModal()">&times;</button>
+            <h3>Edit Portfolio</h3>
+            <div class="portfolio-items-list">
+              {% for item in portfolio %}
+                <div class="portfolio-edit-item">
+                  <img src="{{ item.img }}" alt="{{ item.title }}" class="portfolio-thumbnail">
+                  <div class="portfolio-edit-details">
+                    <form class="edit-portfolio-form" method="POST" action="{{ url_for('edit_portfolio') }}" enctype="multipart/form-data">
+                      <input type="hidden" name="portfolio_id" value="{{ item.pid }}">
+                      <div class="form-row">
+                        <input type="text" name="title" value="{{ item.title }}" placeholder="Title" required>
+                      </div>
+                      <div class="form-row">
+                        <textarea name="description" placeholder="Description" required>{{ item.description }}</textarea>
+                      </div>
+                      <div class="form-actions">
+                        <button type="submit" class="save-btn">Save</button>
+                        <button type="button" class="delete-btn" onclick="deletePortfolioItem('{{ item.pid }}')">Delete</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              {% endfor %}
             </div>
+          </div>
+        </div>
+
+        <!-- Portfolio Image Modal -->
+        <div id="portfolioImageModal" class="portfolio-image-modal">
+          <div class="portfolio-image-modal-content">
+            <span class="close-modal" onclick="closePortfolioImageModal()">&times;</span>
+            <img id="expandedImage" src="" alt="">
+            <h3 id="expandedTitle"></h3>
+            <p id="expandedDescription"></p>
+          </div>
+        </div>
+
+        <div id="reviews" class="content-section">
+            <h2>Reviews</h2>
+            <p>Customer reviews and ratings.</p>
         </div>
     </div>
 
@@ -319,7 +362,43 @@
     //     }
     // });
 
+    function openPortfolioImageModal(imageUrl, title, description) {
+        document.getElementById("expandedImage").src = imageUrl;
+        document.getElementById("expandedTitle").textContent = title;
+        document.getElementById("expandedDescription").textContent = description;
+        document.getElementById("portfolioImageModal").style.display = "flex";
+    }
 
+    function closePortfolioImageModal() {
+        document.getElementById("portfolioImageModal").style.display = "none";
+    }
+
+    function openEditPortfolioModal() {
+      document.getElementById("editPortfolioModal").style.display = "flex";
+    }
+
+    function closeEditPortfolioModal() {
+      document.getElementById("editPortfolioModal").style.display = "none";
+    }
+
+    function deletePortfolioItem(portfolioId) {
+      if (confirm('Are you sure you want to delete this portfolio item?')) {
+        fetch(`/delete_portfolio/${portfolioId}`, {
+          method: 'POST',
+        })
+        .then(response => {
+          if (response.ok) {
+            window.location.reload();
+          } else {
+            alert('Failed to delete portfolio item');
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('Failed to delete portfolio item');
+        });
+      }
+    }
 
     </script>
 

@@ -352,3 +352,266 @@
     background-color: #18A0FB;
     color: white;
   }
+
+/* Portfolio Grid Layout */
+.main-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+/* Portfolio Item Styles */
+.portfolio-item {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.portfolio-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+/* Hover Effects */
+.portfolio-item:hover .portfolio-image {
+    transform: scale(1.1);
+}
+
+.portfolio-overlay {
+    position: absolute;
+    bottom: -100%;
+    left: 0;
+    width: 100%;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    transition: bottom 0.3s ease;
+}
+
+.portfolio-item:hover .portfolio-overlay {
+    bottom: 0;
+}
+
+.portfolio-title {
+    margin: 0 0 5px 0;
+    font-size: 16px;
+}
+
+.portfolio-description {
+    margin: 0;
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+/* Portfolio Image Modal */
+.portfolio-image-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    z-index: 2100;
+    justify-content: center;
+    align-items: center;
+}
+
+.portfolio-image-modal-content {
+    position: relative;
+    max-width: 90%;
+    max-height: 90vh;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.portfolio-image-modal-content img {
+    max-width: 100%;
+    max-height: 70vh;
+    object-fit: contain;
+    margin-bottom: 15px;
+}
+
+.portfolio-image-modal-content h3 {
+    margin: 10px 0;
+    font-size: 24px;
+    color: #333;
+}
+
+.portfolio-image-modal-content p {
+    margin: 10px 0;
+    font-size: 16px;
+    color: #666;
+    line-height: 1.5;
+}
+
+.close-modal {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 28px;
+    font-weight: bold;
+    color: #333;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.close-modal:hover {
+    color: #18A0FB;
+}
+
+/* Edit Portfolio Button */
+.edit-portfolio-btn {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background-color: #18A0FB;
+    color: white;
+    padding: 5px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+    z-index: 2;
+}
+
+.edit-portfolio-btn:hover {
+    background-color: #1493e4;
+}
+
+/* Current Image Preview in Edit Modal */
+.current-image {
+    margin: 15px 0;
+    text-align: center;
+}
+
+.current-image p {
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: #666;
+}
+
+.current-image img {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 5px;
+}
+
+/* Portfolio Buttons Container */
+.portfolio-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+/* Edit Portfolio Button */
+.edit-portfolio-btn {
+    background-color: #18A0FB;
+    color: white;
+    padding: 8px 14px;
+    font-size: 14px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.edit-portfolio-btn:hover {
+    background-color: #1493e4;
+}
+
+/* Edit Portfolio Modal Content */
+.edit-portfolio-list {
+    max-width: 800px !important;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.portfolio-items-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.portfolio-edit-item {
+    display: flex;
+    gap: 20px;
+    padding: 15px;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    align-items: flex-start;
+}
+
+.portfolio-thumbnail {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.portfolio-edit-details {
+    flex: 1;
+}
+
+.edit-portfolio-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.form-row input[type="text"],
+.form-row textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.form-row textarea {
+    height: 80px;
+    resize: vertical;
+}
+
+.form-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.save-btn,
+.delete-btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.save-btn {
+    background-color: #18A0FB;
+    color: white;
+}
+
+.save-btn:hover {
+    background-color: #1493e4;
+}
+
+.delete-btn {
+    background-color: #dc3545;
+    color: white;
+}
+
+.delete-btn:hover {
+    background-color: #c82333;
+}

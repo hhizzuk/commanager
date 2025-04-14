@@ -26,11 +26,9 @@
                     <a href="{{ url_for('user_profile', username=service.username) }}" onclick="event.stopPropagation();">
                         {{ service.username }}
                     </a>
-                  </a>
                 </p>
                 <div class="description">{{ service.description }}</div>
                 <p class="price">${{ service.price }}</p>
-        
               </div>
             {% endfor %}
         </div>

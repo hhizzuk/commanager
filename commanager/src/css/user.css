@@ -87,30 +87,35 @@
     display: block; /* Show only the active section */
 }
 
-/* Container should be relatively positioned for the overlay */
+/* Ensure the portfolio container is relatively positioned */
 .portfolio-item {
     position: relative;
     display: inline-block;
+    width: 250px;      /* Adjust this width if needed */
+    height: 300px;     /* Adjust this height if needed */
     margin: 10px;
+    overflow: hidden;  /* Keeps the image and overlay contained */
+    border: 1px solid #ccc;  /* Optional, for visual debugging */
   }
   
-  /* Style the image */
+  /* Style for the image to fill the container */
   .portfolio-image {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover;
     display: block;
-    width: 100%; /* or set a fixed width, e.g. width: 300px; */
-    height: auto;
   }
   
-  /* Overlay styles */
+  /* The overlay that appears on hover */
   .portfolio-overlay {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.6); /* Semi-transparent black background */
+    background: rgba(0, 0, 0, 0.6);  /* Semi-transparent black */
     color: #fff;
-    opacity: 0;
+    opacity: 0;                     /* Initially hidden */
     transition: opacity 0.3s ease;
     display: flex;
     flex-direction: column;
@@ -121,19 +126,19 @@
     box-sizing: border-box;
   }
   
-  /* On hover, show the overlay */
+  /* When hovering over the portfolio item, show the overlay */
   .portfolio-item:hover .portfolio-overlay {
     opacity: 1;
   }
   
-  /* Optional: Adjust title and description styling */
+  /* Styling for the overlay text */
   .portfolio-title {
     margin: 0;
     font-size: 1.2em;
   }
   
   .portfolio-description {
-    margin: 5px 0 0;
+    margin-top: 5px;
     font-size: 1em;
   }
   
