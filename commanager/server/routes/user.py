@@ -13,36 +13,32 @@ def setup_user_routes(app):
     def update_password():
         if not (current_user := get_authorized_user()):
             return redirect(url_for('login'))
-            
+
         data = request.get_json()
         current_password = data.get('current_password')
         new_password = data.get('new_password')
-        
+
         if not all([current_password, new_password]):
             return jsonify({'error': 'Missing required fields'}), 400
-        
+
         try:
-            # Get user email from database
             user_data = supabase_admin.table('users').select('email').eq('uid', session['user']).single().execute()
             user_email = user_data.data['email']
-            
-            # Verify current password
+
             supabase_user.auth.sign_in_with_password({
                 'email': user_email,
                 'password': current_password
             })
-            
-            # Update password
+
             supabase_admin.auth.admin.update_user_by_id(
                 session['user'],
                 {'password': new_password}
             )
-            
-            return jsonify({'message': 'Password updated successfully'})
-            
-        except Exception as e:
-            return jsonify({'error': 'Invalid current password or other error'}), 400
 
+            return jsonify({'message': 'Password updated successfully'})
+
+        except Exception:
+            return jsonify({'error': 'Invalid current password or other error'}), 400
 
     @app.route('/update_profile', methods=['POST'])
     def update_profile():
@@ -50,25 +46,18 @@ def setup_user_routes(app):
             return redirect(url_for('login'))
 
         uid = session['user']
-        # services_response = supabase_user.table('services').select('*').eq('uid', uid).execute()
-        # services = services_response.data if not services_response.error else []
-        # Get form fields
         bio = request.form.get('bio', '')
         sm_links = request.form.get('social_links', '')
-
-        # Optional file upload
         file = request.files.get('profile_picture')
         profile_pic_url = None
 
-        # If a file was uploaded, handle it (this is a placeholder)
         if file and file.filename != '':
             filename = secure_filename(file.filename)
-            upload_path = os.path.join('commanager', 'server', 'static', 'uploads')
-            os.makedirs(upload_path, exist_ok=True)  # Create the folder if needed
+            upload_path = os.path.join('commanager', 'server', 'static', 'uploads', 'pfps')
+            os.makedirs(upload_path, exist_ok=True)
             profile_pic_url = f"/static/uploads/pfps/{filename}"
             file.save(os.path.join(upload_path, filename))
 
-        # Build the update payload
         updates = {
             'bio': bio,
             'social_media_links': sm_links,
@@ -76,17 +65,15 @@ def setup_user_routes(app):
         if profile_pic_url:
             updates['pfp'] = profile_pic_url
 
-        # Update in Supabase
-        response = supabase_user.table('users').update(updates).eq('uid', uid).execute()
+        supabase_user.table('users').update(updates).eq('uid', uid).execute()
 
-        # Refresh session if username or anything else needs updating later
         return redirect(url_for('user_profile', username=current_user))
-    
+
     @app.route('/add_service', methods=['POST'])
     def add_service():
         if not (current_user := get_authorized_user()):
             return redirect(url_for('login'))
-        
+
         uid = session['user']
         title = request.form.get('title')
         description = request.form.get('description')
@@ -113,36 +100,36 @@ def setup_user_routes(app):
             'image_urls': [service_image_url] if service_image_url else [],
         }
 
-        response = supabase_user.table('services').insert(service_data).execute()
+        supabase_user.table('services').insert(service_data).execute()
 
         return redirect(url_for('user_profile', username=current_user))
-
 
     @app.route('/add_portfolio', methods=['POST'])
     def add_portfolio():
         if not (current_user := get_authorized_user()):
-            # Return JSON for unauthorized access instead of redirect
             return jsonify({'error': 'User not authorized'}), 401
-        
+
         uid = session['user']
         title = request.form.get('title')
         description = request.form.get('description')
         file = request.files.get('image')
         portfolio_image_url = None
+
         if file and file.filename != '':
             filename = secure_filename(file.filename)
             upload_path = os.path.join('commanager', 'server', 'static', 'uploads', 'portfolio')
             os.makedirs(upload_path, exist_ok=True)
             portfolio_image_url = f"/static/uploads/portfolio/{filename}"
             file.save(os.path.join(upload_path, filename))
+
         portfolio_data = {
             'uid': uid,
             'title': title,
             'description': description,
             'img': portfolio_image_url,
         }
-        response = supabase_user.table('portfolio').insert(portfolio_data).execute()
-        print("Supabase response:", response)
+
+        supabase_user.table('portfolio').insert(portfolio_data).execute()
 
         return redirect(url_for('user_profile', username=current_user))
 
@@ -150,25 +137,22 @@ def setup_user_routes(app):
     def edit_portfolio():
         if not (current_user := get_authorized_user()):
             return jsonify({'error': 'User not authorized'}), 401
-        
+
         uid = session['user']
         portfolio_id = request.form.get('portfolio_id')
         title = request.form.get('title')
         description = request.form.get('description')
         file = request.files.get('image')
-        
-        # Verify the portfolio item belongs to the user
+
         portfolio_item = supabase_user.table('portfolio').select('*').eq('pid', portfolio_id).eq('uid', uid).execute()
         if not portfolio_item.data:
             return jsonify({'error': 'Portfolio item not found or unauthorized'}), 404
 
-        # Prepare update data
         update_data = {
             'title': title,
             'description': description,
         }
 
-        # Handle image upload if a new image was provided
         if file and file.filename != '':
             filename = secure_filename(file.filename)
             upload_path = os.path.join('commanager', 'server', 'static', 'uploads', 'portfolio')
@@ -177,24 +161,20 @@ def setup_user_routes(app):
             file.save(os.path.join(upload_path, filename))
             update_data['img'] = portfolio_image_url
 
-        # Update the portfolio item
-        response = supabase_user.table('portfolio').update(update_data).eq('pid', portfolio_id).eq('uid', uid).execute()
-        
+        supabase_user.table('portfolio').update(update_data).eq('pid', portfolio_id).eq('uid', uid).execute()
+
         return redirect(url_for('user_profile', username=current_user))
 
     @app.route('/delete_portfolio/<portfolio_id>', methods=['POST'])
     def delete_portfolio(portfolio_id):
         if not (current_user := get_authorized_user()):
             return jsonify({'error': 'User not authorized'}), 401
-        
+
         uid = session['user']
-        
-        # Verify the portfolio item belongs to the user
         portfolio_item = supabase_user.table('portfolio').select('*').eq('pid', portfolio_id).eq('uid', uid).execute()
         if not portfolio_item.data:
             return jsonify({'error': 'Portfolio item not found or unauthorized'}), 404
 
-        # Delete the portfolio item
-        response = supabase_user.table('portfolio').delete().eq('pid', portfolio_id).eq('uid', uid).execute()
-        
+        supabase_user.table('portfolio').delete().eq('pid', portfolio_id).eq('uid', uid).execute()
+
         return jsonify({'message': 'Portfolio item deleted successfully'})

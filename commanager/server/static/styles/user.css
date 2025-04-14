@@ -353,14 +353,6 @@
     color: white;
   }
 
-/* Portfolio Grid Layout */
-.main-content {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 20px;
-    padding: 20px;
-}
-
 /* Portfolio Item Styles */
 .portfolio-item {
     position: relative;

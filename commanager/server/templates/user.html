@@ -18,7 +18,7 @@
     <div class="profile-container">
         <!-- Top Section: Profile Info -->
         <div class="profile-header">
-            <img src="{{ pfp if pfp else url_for('static', filename='images/profile.png') }}" alt="User Avatar" class="profile-pic">
+            <img src="{{ pfp if pfp else url_for('static', filename='uploads/pfps/profile.png') }}" alt="User Avatar" class="profile-pic">
             <div class="profile-info">
                 <h1 class="username">{{ username }}</h1>
                 <h3 class="bio">Rating: {{ rating }}</h3>
@@ -115,7 +115,6 @@
             {% endif %}
           </div>
           <p>Commission listings and details go here.</p>
-          <div class="container">
             <div class="main-content">
               {% for service in services %}
                 <div class="commission-card">
@@ -127,7 +126,6 @@
                   <div class="price">${{ service['price'] }}</div>
                 </div>
               {% endfor %}
-            </div>
           </div>
         </div>
   

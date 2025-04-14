@@ -9,17 +9,17 @@
             <input type="text" class="search-box" placeholder="Search">
         </div>
         <div class="profile">
-            <a href="{{ url_for('user_profile', username=username) }}">
-                <div class="user">{{ username }}</div>
+            <a href="{{ url_for('user_profile', username=current_user) }}">
+                <div class="user">{{ current_user }}</div>
             </a>
             <div class="avatar">        
-                <img src="{{ pfp if pfp else url_for('static', filename='uploads/pfps/profile.png') }}" alt="User Avatar" class="avatar-img">
+                <img src="{{ my_pfp if my_pfp else url_for('static', filename='uploads/pfps/profile.png') }}" alt="User Avatar" class="avatar-img">
                 <div class="profile-menu">
                     <ul>
-                        <li><a href="{{ url_for('user_profile', username=username) }}">View Profile</a></li>
-                        <li><a href="{{ url_for('user_orders', username=username) }}">Orders</a></li>
-                        <li><a href="{{ url_for('user_messages', username=username) }}">Messages</a></li>
-                        <li><a href="{{ url_for('user_settings', username=username) }}">Settings</a></li>
+                        <li><a href="{{ url_for('user_profile', username=current_user) }}">View Profile</a></li>
+                        <li><a href="{{ url_for('user_orders', username=current_user) }}">Orders</a></li>
+                        <li><a href="{{ url_for('user_messages', username=current_user) }}">Messages</a></li>
+                        <li><a href="{{ url_for('user_settings', username=current_user) }}">Settings</a></li>
                         <li><a href="{{ url_for('logout') }}">Logout</a></li>
                     </ul>
                 </div>
