@@ -40,11 +40,9 @@ def setup_page_routes(app):
 
         uid = user_data.data['uid']
 
-        # ✅ Now fetch all content related to that UID
         services = supabase_user.table('services').select('*').eq('uid', uid).execute().data or []
         portfolio = supabase_user.table('portfolio').select('*').eq('uid', uid).execute().data or []
         reviews = supabase_user.table('reviews').select('*').eq('reviewee_id', uid).execute().data or []
-
 
         context = {
             "uid": uid,

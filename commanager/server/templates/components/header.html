@@ -13,7 +13,7 @@
                 <div class="user">{{ username }}</div>
             </a>
             <div class="avatar">        
-                <img src="{{ pfp if pfp else url_for('static', filename='images/profile.png') }}" alt="User Avatar" class="avatar-img">
+                <img src="{{ pfp if pfp else url_for('static', filename='uploads/pfps/profile.png') }}" alt="User Avatar" class="avatar-img">
                 <div class="profile-menu">
                     <ul>
                         <li><a href="{{ url_for('user_profile', username=username) }}">View Profile</a></li>

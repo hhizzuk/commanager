@@ -65,7 +65,7 @@ def setup_user_routes(app):
             filename = secure_filename(file.filename)
             upload_path = os.path.join('commanager', 'server', 'static', 'uploads')
             os.makedirs(upload_path, exist_ok=True)  # Create the folder if needed
-            profile_pic_url = f"/static/uploads/{filename}"
+            profile_pic_url = f"/static/uploads/pfps/{filename}"
             file.save(os.path.join(upload_path, filename))
 
         # Build the update payload
