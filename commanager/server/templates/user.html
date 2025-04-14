@@ -197,9 +197,47 @@
         </div>
 
         <div id="reviews" class="content-section">
-            <h2>Reviews</h2>
-            <p>Customer reviews and ratings.</p>
+          <h2>Reviews</h2>
+          
+          {% if username != current_user %}
+          <div class="review-form">
+              <h3>Write a Review</h3>
+              <div class="rating-stars">
+                  {% for i in range(5, 0, -1) %}
+                  <input type="radio" id="star{{i}}" name="rating" value="{{i}}">
+                  <label for="star{{i}}" title="{{i}} star">★</label>
+                  {% endfor %}
+              </div>
+              <textarea id="reviewComment" placeholder="Share your experience..."></textarea>
+              <button onclick="submitReview('{{ username }}')">Submit Review</button>
+          </div>
+          {% endif %}
+      
+        <div class="reviews-list">
+          {% for review in reviews %}
+          <div class="review-item {% if review.verified_customer %}verified{% endif %}">
+              <div class="review-header">
+                  <span class="reviewer">{{ review.reviewer_id }}</span>
+                  <div class="review-stars">
+                      {% for i in range(1, 6) %}
+                      <span class="star {% if i <= review.rating %}filled{% endif %}">★</span>
+                      {% endfor %}
+                  </div>
+                  {% if review.verified_customer %}
+                  <span class="verified-badge">✓ Verified Customer</span>
+                  {% endif %}
+                  {% if current_user and review.reviewer_id == session['user'] %}
+                  <button class="delete-review-btn" onclick="deleteReview('{{ review.rid }}')">Delete</button>
+                  {% endif %}
+              </div>
+              <p class="review-comment">{{ review.comment }}</p>
+              <p class="review-date">{{ review.created_at }}</p>
+          </div>
+          {% else %}
+          <p>No reviews yet.</p>
+          {% endfor %}
         </div>
+      </div>
     </div>
 
     <!-- Popup Modal -->
@@ -225,60 +263,38 @@
     <!-- Scripts -->
     <script>
     // Toggle Section Functionality
-    function showSection(event, sectionId) {
-        console.log("Button clicked:", sectionId); // Debugging log
 
-        // Hide all sections
+    function showSection(event, sectionId) {
+    // Hide all sections
         document.querySelectorAll('.content-section').forEach(section => {
             section.classList.remove('active');
-            section.style.display = "none"; // Ensure sections are hidden
+            section.style.display = "none";
         });
 
         // Show the selected section
-        let selectedSection = document.getElementById(sectionId);
+        const selectedSection = document.getElementById(sectionId);
         if (selectedSection) {
             selectedSection.classList.add('active');
-            selectedSection.style.display = "block"; // Ensure the selected section is visible
-        } else {
-            console.error("Section not found:", sectionId);
+            selectedSection.style.display = "block";
         }
 
-        // Update active button
+        // Remove active class from all buttons
         document.querySelectorAll('.toggle-btn').forEach(btn => {
             btn.classList.remove('active');
         });
-
+        
+        // Add active class to clicked button
         event.target.classList.add('active');
+
+        // Toggle portfolio button visibility (only if you need this)
+        const addBtn = document.getElementById('addPortfolioBtn');
+        if (sectionId === 'portfolio') {
+            if (addBtn) addBtn.style.display = 'block';
+        } else {
+            if (addBtn) addBtn.style.display = 'none';
+        }
     }
 
-    function showSection(event, sectionId) {
-    // hide all sections
-    document.querySelectorAll('.content-section').forEach(section => {
-        section.classList.remove('active');
-        section.style.display = "none";
-    });
-
-    // show selected section
-    const selectedSection = document.getElementById(sectionId);
-    if (selectedSection) {
-        selectedSection.classList.add('active');
-        selectedSection.style.display = "block";
-    }
-
-    // toggle portfolio button
-    const addBtn = document.getElementById('addPortfolioBtn');
-    if (sectionId === 'portfolio') {
-        addBtn.style.display = 'block';
-    } else {
-        addBtn.style.display = 'none';
-    }
-
-    // update active tab button
-    document.querySelectorAll('.toggle-btn').forEach(btn => {
-        btn.classList.remove('active');
-    });
-    event.target.classList.add('active');
-    }
     function openPortfolioModal() {
         document.getElementById("portfolioModal").style.display = "flex";
     }
@@ -337,7 +353,61 @@
     function closeProfileModal() {
       document.getElementById("editProfileModal").style.display = "none";
     }
+    function deleteReview(reviewId) {
+        if (!confirm('Are you sure you want to delete this review?')) {
+            return;
+        }
 
+        fetch(`/delete_review/${reviewId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) throw new Error(data.error);
+            alert('Review deleted successfully!');
+            window.location.reload();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Failed to delete review: ' + error.message);
+        });
+    }
+   
+    function submitReview(revieweeUsername) {
+        const rating = document.querySelector('input[name="rating"]:checked')?.value;
+        const comment = document.getElementById('reviewComment').value.trim();
+        
+        if (!rating) {
+            alert('Please select a rating');
+            return;
+        }
+
+        fetch('/submit_review', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                reviewee_username: revieweeUsername,
+                rating: rating,
+                comment: comment
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) throw new Error(data.error);
+            alert('Review submitted successfully!');
+            window.location.reload();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Failed to submit review: ' + error.message);
+        });
+    }
     // document.getElementById("serviceForm").addEventListener("submit", async function (e) {
     //     e.preventDefault();
     //     const formData = new FormData(this);
