@@ -32,7 +32,9 @@
                 </div>
             </div>
             
-            <button class="edit-profile-btn" onclick="openProfileModal()">Edit Profile</button>
+            {% if username == current_user %}
+              <button class="edit-profile-btn" onclick="openProfileModal()">Edit Profile</button>
+            {% endif %}
 
             <!-- Edit Profile Modal -->
             <div class="profile-modal-overlay" id="editProfileModal">
@@ -108,7 +110,9 @@
         <div id="services" class="content-section active">
           <div class="section-header">
             <h2>Services</h2>
-            <button type="button" class="add-service-btn" onclick="openServiceModal()">+ Add Service</button>
+            {% if username == current_user %}
+              <button type="button" class="add-service-btn" onclick="openServiceModal()">+ Add Service</button>
+            {% endif %}
           </div>
           <p>Commission listings and details go here.</p>
           <div class="container">
@@ -131,7 +135,9 @@
         <div id="portfolio" class="content-section">
           <div class="section-header">
             <h2>Portfolio</h2>
-            <button id="addPortfolioBtn" class="add-portfolio-btn" onclick="openPortfolioModal()" style="display: none;">+ Add to Portfolio</button>
+            {% if username == current_user %}
+              <button id="addPortfolioBtn" class="add-portfolio-btn" onclick="openPortfolioModal()">+ Add to Portfolio</button>
+            {% endif %}
           </div>
           <p>Showcase past work.</p>
           <div class="main-content">

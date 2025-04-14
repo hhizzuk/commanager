@@ -58,7 +58,7 @@ def setup_page_routes(app):
             "rating": user_data.data['rating']
         }
 
-        return render_template('user.html', **context, username=username)
+        return render_template('user.html', **context, username=username, current_user=current_user)
 
     @app.route('/user/<username>/messages')
     def user_messages(username):
