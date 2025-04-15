@@ -225,3 +225,51 @@ def setup_page_routes(app):
         except Exception as e:
             print(f"Error deleting review: {str(e)}")
             return jsonify({'error': str(e)}), 500
+    @app.route('/search')
+    def search():
+        if not (current_user := get_authorized_user()):
+            return redirect(url_for('login'))
+
+        search_query = request.args.get('query', '').strip().lower()
+        
+        if not search_query:
+            return redirect(url_for('home'))
+
+        # Get all users first 
+        users = supabase_user.table('users').select('uid, username').execute().data or []
+        uid_to_username = {str(user['uid']): user['username'] for user in users}
+        username_to_uid = {user['username'].lower(): str(user['uid']) for user in users}
+
+        # 1. Search services by title/description
+        services_by_content = supabase_user.table('services') \
+            .select('*') \
+            .or_(f"title.ilike.%{search_query}%,description.ilike.%{search_query}%") \
+            .execute().data or []
+
+        # 2. Search services by username
+        services_by_artist = []
+        if search_query in username_to_uid:
+            artist_uid = username_to_uid[search_query]
+            services_by_artist = supabase_user.table('services') \
+                .select('*') \
+                .eq('uid', artist_uid) \
+                .execute().data or []
+
+        # Combine results, removing dupes
+        all_services = {service['sid']: service for service in services_by_content + services_by_artist}.values()
+
+        # Add usernames to services
+        for service in all_services:
+            service_uid = str(service['uid'])
+            service['username'] = uid_to_username.get(service_uid, 'unknown')
+
+        # 3. Get direct username matches for display
+        username_matches = [user for user in users if search_query in user['username'].lower()]
+
+        return render_template(
+            'home.html',
+            current_user=current_user,
+            services=list(all_services),
+            username_matches=username_matches,
+            search_query=search_query
+        )

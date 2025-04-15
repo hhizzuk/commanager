@@ -14,24 +14,55 @@
     <script src="{{ url_for('static', filename='js/commissions-card.js') }}"></script>
     
     <div class="container">
-        <h2>Discover</h2>
-        <div class="main-content">
-            {% for service in services %}
-              <div class="commission-card">
-                {% if service.image_urls and service.image_urls[0] %}
-                  <img src="{{ service.image_urls[0] }}" alt="Service image" class="commission-image">
+        {% if search_query %}
+        <h2>Search Results for "{{ search_query }}"</h2>
+        {% else %}
+            <h2>Discover</h2>
+        {% endif %}
+        {% if username_matches %}
+            <div class="artist-results">
+                <h3>Artists</h3>
+                <div class="artist-list">
+                    {% for user in username_matches %}
+                        <div class="artist-card">
+                            <a href="{{ url_for('user_profile', username=user.username) }}">
+                                <div class="artist-avatar">
+                                    <img src="{{ url_for('static', filename='uploads/pfps/' + user.pfp.split('/')[-1]) if user.pfp else url_for('static', filename='uploads/pfps/profile.png') }}" alt="{{ user.username }}">
+                                </div>
+                                <div class="artist-name">{{ user.username }}</div>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+        
+        <div class="service-results">
+            {% if services %}
+            <h3>Services</h3>
+                <div class="main-content">
+                        {% for service in services %}
+                        <div class="commission-card">
+                            {% if service.image_urls and service.image_urls[0] %}
+                            <img src="{{ service.image_urls[0] }}" alt="Service image" class="commission-image">
+                            {% endif %}
+                            <div class="commission-title">{{ service.title }}</div>
+                            <p class="commission-user">
+                                <a href="{{ url_for('user_profile', username=service.username) }}" onclick="event.stopPropagation();">
+                                    {{ service.username }}
+                                </a>
+                            </p>
+                            <div class="description">{{ service.description }}</div>
+                            <p class="price">${{ service.price }}</p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% elif not username_matches %}
+                    <div class="no-results">
+                        <p>No results found{% if search_query %} for "{{ search_query }}"{% endif %}</p>
+                    </div>
                 {% endif %}
-                <div class="commission-title">{{ service.title }}</div>
-                <p class="commission-user">
-                    <a href="{{ url_for('user_profile', username=service.username) }}" onclick="event.stopPropagation();">
-                        {{ service.username }}
-                    </a>
-                </p>
-                <div class="description">{{ service.description }}</div>
-                <p class="price">${{ service.price }}</p>
-              </div>
-            {% endfor %}
-        </div>
+                </div>
     </div>
 
     <div class="popup-overlay" id="popup">
@@ -57,3 +88,4 @@
     </div>
 </body>
 </html>
+
