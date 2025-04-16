@@ -178,3 +178,19 @@ def setup_user_routes(app):
         supabase_user.table('portfolio').delete().eq('pid', portfolio_id).eq('uid', uid).execute()
 
         return jsonify({'message': 'Portfolio item deleted successfully'})
+    @app.route('/delete_service/<service_id>', methods=['DELETE'])
+    def delete_service(service_id):
+        if not (current_user := get_authorized_user()):
+            return jsonify({'error': 'User not authorized'}), 401
+
+        uid = session['user']
+        
+        # Verify the service belongs to the current user
+        service_data = supabase_user.table('services').select('uid').eq('sid', service_id).execute()
+        if not service_data.data or str(service_data.data[0]['uid']) != uid:
+            return jsonify({'error': 'Service not found or unauthorized'}), 404
+
+        # Delete the service
+        supabase_user.table('services').delete().eq('sid', service_id).execute()
+
+        return jsonify({'message': 'Service deleted successfully'})

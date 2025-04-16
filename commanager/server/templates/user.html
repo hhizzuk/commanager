@@ -115,17 +115,20 @@
             {% endif %}
           </div>
           <p>Commission listings and details go here.</p>
-            <div class="main-content">
-              {% for service in services %}
-                <div class="commission-card">
-                  {% if service['image_urls'] and service['image_urls'][0] %}
-                    <img src="{{ service['image_urls'][0] }}" alt="Service image" class="commission-image">
-                  {% endif %}
-                  <div class="commission-title">{{ service['title'] }}</div>
-                  <div class="description">{{ service['description'] }}</div>
-                  <div class="price">${{ service['price'] }}</div>
-                </div>
-              {% endfor %}
+          <div class="main-content">
+            {% for service in services %}
+              <div class="commission-card">
+                {% if service['image_urls'] and service['image_urls'][0] %}
+                  <img src="{{ service['image_urls'][0] }}" alt="Service image" class="commission-image">
+                {% endif %}
+                <div class="commission-title">{{ service['title'] }}</div>
+                <div class="description">{{ service['description'] }}</div>
+                <div class="price">${{ service['price'] }}</div>
+                {% if username == current_user %}
+                  <button class="delete-service-btn" onclick="deleteService('{{ service.sid }}')">Delete</button>
+                {% endif %}
+              </div>
+            {% endfor %}
           </div>
         </div>
   
@@ -466,6 +469,33 @@
           alert('Failed to delete portfolio item');
         });
       }
+    }
+    function deleteService(serviceId) {
+        if (!confirm('Are you sure you want to delete this service?')) {
+            return;
+        }
+
+        fetch(`/delete_service/${serviceId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to delete service');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.error) throw new Error(data.error);
+            alert('Service deleted successfully!');
+            window.location.reload();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Failed to delete service: ' + error.message);
+        });
     }
 
     </script>
