@@ -27,7 +27,7 @@
                         <div class="artist-card">
                             <a href="{{ url_for('user_profile', username=user.username) }}">
                                 <div class="artist-avatar">
-                                    <img src="{{ url_for('static', filename='uploads/pfps/' + user.pfp.split('/')[-1]) if user.pfp else url_for('static', filename='uploads/pfps/profile.png') }}" alt="{{ user.username }}">
+                                    <img src="{{ user.pfp if user.pfp else url_for('static', filename='uploads/pfps/profile.png') }}" alt="User Avatar" class="profile-pic">
                                 </div>
                                 <div class="artist-name">{{ user.username }}</div>
                             </a>

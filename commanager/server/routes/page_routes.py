@@ -236,7 +236,7 @@ def setup_page_routes(app):
             return redirect(url_for('home'))
 
         # Get all users first 
-        users = supabase_user.table('users').select('uid, username').execute().data or []
+        users = supabase_user.table('users').select('uid, username, pfp').execute().data or []
         uid_to_username = {str(user['uid']): user['username'] for user in users}
         username_to_uid = {user['username'].lower(): str(user['uid']) for user in users}
 
@@ -264,7 +264,15 @@ def setup_page_routes(app):
             service['username'] = uid_to_username.get(service_uid, 'unknown')
 
         # 3. Get direct username matches for display
-        username_matches = [user for user in users if search_query in user['username'].lower()]
+            username_matches = [
+            {
+                'uid': user['uid'],
+                'username': user['username'],
+                'pfp': user.get('pfp')  # Added here
+            } 
+            for user in users 
+            if search_query in user['username'].lower()
+        ]
 
         return render_template(
             'home.html',
