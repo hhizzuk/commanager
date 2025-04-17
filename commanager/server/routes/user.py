@@ -78,30 +78,34 @@ def setup_user_routes(app):
         title = request.form.get('title')
         description = request.form.get('description')
         price = request.form.get('price') or "N/A"
-        file = request.files.get('image')
-        service_image_url = None
+        files = request.files.getlist('images[]')  # <--- updated for multiple files
 
-        if file and file.filename != '':
-            filename = secure_filename(file.filename)
-            upload_path = os.path.join('commanager', 'server', 'static', 'uploads', 'services')
-            os.makedirs(upload_path, exist_ok=True)
-            service_image_url = f"/static/uploads/services/{filename}"
-            try:
-                file.save(os.path.join(upload_path, filename))
-            except Exception as e:
-                print("File save error:", e)
-                return jsonify({'error': f'File save error: {str(e)}'}), 400
+        service_image_urls = []
+        upload_path = os.path.join('commanager', 'server', 'static', 'uploads', 'services')
+        os.makedirs(upload_path, exist_ok=True)
+
+        for file in files:
+            if file and file.filename != '':
+                filename = secure_filename(file.filename)
+                file_path = os.path.join(upload_path, filename)
+                try:
+                    file.save(file_path)
+                    image_url = f"/static/uploads/services/{filename}"
+                    service_image_urls.append(image_url)
+                except Exception as e:
+                    print("File save error:", e)
+                    return jsonify({'error': f'File save error: {str(e)}'}), 400
 
         service_data = {
             'uid': uid,
             'title': title,
             'description': description,
             'price': price,
-            'image_urls': [service_image_url] if service_image_url else [],
+            'image_urls': service_image_urls,  # <--- all image URLs stored here
         }
-
+    
         supabase_user.table('services').insert(service_data).execute()
-
+    
         return redirect(url_for('user_profile', username=current_user))
 
     @app.route('/add_portfolio', methods=['POST'])

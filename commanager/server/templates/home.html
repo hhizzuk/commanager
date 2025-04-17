@@ -38,52 +38,61 @@
         {% endif %}
         
         <div class="service-results">
+            {% if search_query %}
+                <h3>Services</h3>
+            {% endif %}
+            
             {% if services %}
-            <h3>Services</h3>
                 <div class="main-content">
-                        {% for service in services %}
-                        <div class="commission-card">
-                            {% if service.image_urls and service.image_urls[0] %}
-                            <img src="{{ service.image_urls[0] }}" alt="Service image" class="commission-image">
-                            {% endif %}
-                            <div class="commission-title">{{ service.title }}</div>
-                            <p class="commission-user">
-                                <a href="{{ url_for('user_profile', username=service.username) }}" onclick="event.stopPropagation();">
-                                    {{ service.username }}
-                                </a>
-                            </p>
-                            <div class="description">{{ service.description }}</div>
-                            <p class="price">${{ service.price }}</p>
-                        </div>
-                        {% endfor %}
+                    {% for service in services %}
+                    <div class="commission-card"
+                        data-title="{{ service.title }}"
+                        data-description="{{ service.description }}"
+                        data-price="${{ service.price }}"
+                        data-username="{{ service.username }}"
+                        data-images='{{ service.image_urls | tojson | safe }}'>
+                                    
+                        {% if service.image_urls and service.image_urls[0] %}
+                        <img src="{{ service.image_urls[0] }}" alt="Service image" class="commission-image">
+                        {% endif %}
+                        <div class="commission-title">{{ service.title }}</div>
+                        <p class="commission-user">
+                            <a href="{{ url_for('user_profile', username=service.username) }}" onclick="event.stopPropagation();">
+                                {{ service.username }}
+                            </a>
+                        </p>
+                        <div class="description">{{ service.description }}</div>
+                        <p class="price">${{ service.price }}</p>
                     </div>
-                    {% elif not username_matches %}
-                    <div class="no-results">
-                        <p>No results found{% if search_query %} for "{{ search_query }}"{% endif %}</p>
-                    </div>
-                {% endif %}
+                    {% endfor %}
                 </div>
+                {% elif not username_matches %}
+                <div class="no-results">
+                    <p>No results found{% if search_query %} for "{{ search_query }}"{% endif %}</p>
+                </div>
+            {% endif %}
+            </div>
+    </div>
     </div>
 
     <div class="popup-overlay" id="popup">
         <div class="popup-content">
             <button class="close-btn" id="closePopup">&times;</button>
             <div class="popup-header">Commission Title</div>
-            <div class="images">
-                <div class="box"></div>
-                <div class="box"></div>
-                <div class="box"></div>
-            </div>
-            <div class="popup-body">
-                Commission description and details<br/><br/>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor 
-                in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.
-                <br><br>
-                <a href="{{ url_for('request_page') }}" class="request-button">Request</a>
-            </div>
-            
-
+            <div class="popup-main">
+                <!-- Left: Images -->
+                <div class="images" id="popupImages">
+                  <img id="popupImage" class="commission-image" src="" alt="Popup Image" />
+                </div>
+          
+                <!-- Right: Description, price, button -->
+                <div class="popup-right">
+                  <div class="popup-body" id="popupDescription">
+                    Commission description and details
+                  </div>
+                  <a href="{{ url_for('request_page') }}" class="request-button">Request</a>
+                </div>
+            </div>           
         </div>
     </div>
 </body>

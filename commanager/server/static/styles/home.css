@@ -66,22 +66,14 @@
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.5);
-}
-
-.popup-overlay {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 1000; /* Ensure it's above other content */
+  z-index: 1000;
 }
 
 .popup-content {
+  display: flex;
+  flex-direction: column;              /* Title on top, content below */
   width: 80vw;
-  max-height: 80vh;  /* Maximum height to prevent overflowing outside the viewport */
+  max-height: 80vh;
   background: white;
   position: relative;
   left: 50%;
@@ -89,63 +81,81 @@
   transform: translate(-50%, -50%);
   padding: 20px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  display: grid;
-  grid-template-columns: 1fr 2fr; /* Two columns: left for images, right for text */
-  grid-template-rows: auto 1fr auto; /* Auto height for header and footer */
-  gap: 20px; /* Space between grid items */
-  border-radius: 20px; /* Rounded corners for the popup */
-  overflow: auto; /* Make the entire popup scrollable */
+  border-radius: 20px;
+  overflow: auto;
+  gap: 20px;
 }
 
-
+/* Top header */
 .popup-header {
-  padding-top: 20px;
   font-size: 30px;
   font-weight: bold;
-  grid-column: span 2; /* Header spans both columns */
   text-align: center;
+  margin-bottom: 10px;
 }
 
-.popup-body {
-  grid-column: 2; /* Place the body in the second column (right side) */
-  grid-row: 2 / auto; /* Start at row 2 and span as many rows as needed */
-  align-self: start; /* Align the body content to the top */
-  width: 100%;
-  height: auto; /* Let the height adjust based on content */
-}
-
-.images {
-  grid-column: 1;
-  display: grid;  /* Make it a grid container */
-  gap: 20px;      /* Add space between the boxes */
-}
-
-.box {
-  width: 100%; /* Make the box take full width of its grid column */
-  height: 238px;
-  background: #E5E5E5;
-  border: 1px solid rgba(0, 0, 0, 0.3);
-  position: relative;
-  padding-bottom: 10px;
-}
-
-.request-button {
-  grid-column: span 2; /* Footer spans across both columns */
-  text-align: center;
-  padding: 10px;
-  background: #18A0FB;
+/* Horizontal flex for images + content */
+.popup-main {
   display: flex;
+  gap: 30px;
+  flex: 1;
+}
+
+/* Left column: Images */
+.images {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.images img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+/* Right column: text + button */
+.popup-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+/* Description */
+.popup-body {
+  /* flex-grow: 1; */
+  margin-bottom: 10px;
+}
+
+/* Price styling */
+.popup-price {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+/* Request button */
+.request-button {
+  align-self: flex-start;
+  width: 100%;
+  padding: 10px 20px;
+  background: #18A0FB;
+  color: white;
+  text-decoration: none;
+  border-radius: 45px;
+  font-size: 20px;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 45px;
-  color: white;
   cursor: pointer;
-  text-decoration: none;
-  font-size: 20px;
+  margin-top: 30px;
 }
-.request-button:hover a{
+
+.request-button:hover {
   text-decoration: none;
-  color:#ccc;
+  color: #ccc;
 }
 
 .close-btn {

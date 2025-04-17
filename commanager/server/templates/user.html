@@ -24,12 +24,12 @@
                 <h3 class="bio">Rating: {{ rating }}</h3>
                 <p class="bio">{{ bio }}</p>
                 <p class="bio">{{ email }}</p>
-                <p class="social-media">Social Media @username</p>
-                <div class="skills">
+                <!-- <p class="social-media">Social Media @username</p> -->
+                <!-- <div class="skills">
                     <span class="tag">Tag</span>
                     <span class="tag">Tag</span>
                     <span class="tag">Tag</span>
-                </div>
+                </div> -->
             </div>
             
             {% if username == current_user %}
@@ -77,10 +77,10 @@
             <input type="text" id="serviceTitle" name="title" required>
             <label for="serviceDescription">Description:</label>
             <textarea id="serviceDescription" name="description" rows="4" required></textarea>
-            <label for="servicePrice">Price (optional):</label>
+            <label for="servicePrice">Price:</label>
             <input type="text" id="servicePrice" name="price" placeholder="$100">
-            <label for="serviceImage">Image (optional):</label>
-            <input type="file" id="serviceImage" name="image" accept="image/*">
+            <label for="serviceImage">Image:</label>
+            <input type="file" id="serviceImage" name="images[]" accept="image/*" multiple>
             <button type="submit">Add Service</button>
           </form>
         </div>
@@ -117,17 +117,23 @@
           <p>Commission listings and details go here.</p>
           <div class="main-content">
             {% for service in services %}
-              <div class="commission-card">
-                {% if service['image_urls'] and service['image_urls'][0] %}
-                  <img src="{{ service['image_urls'][0] }}" alt="Service image" class="commission-image">
-                {% endif %}
-                <div class="commission-title">{{ service['title'] }}</div>
-                <div class="description">{{ service['description'] }}</div>
-                <div class="price">${{ service['price'] }}</div>
-                {% if username == current_user %}
-                  <button class="delete-service-btn" onclick="deleteService('{{ service.sid }}')">Delete</button>
-                {% endif %}
-              </div>
+            <div class="commission-card"
+               data-title="{{ service['title'] }}"
+               data-description="{{ service['description'] }}"
+               data-price="${{ service['price'] }}"
+               data-images='{{ service['image_urls'] | tojson | safe }}'>
+               
+              {% if service['image_urls'] and service['image_urls'][0] %}
+                <img src="{{ service['image_urls'][0] }}" alt="Service image" class="commission-image">
+              {% endif %}
+              <div class="commission-title">{{ service['title'] }}</div>
+              <div class="description">{{ service['description'] }}</div>
+              <div class="price">${{ service['price'] }}</div>
+              
+              {% if username == current_user %}
+                <button class="delete-service-btn" onclick="deleteService('{{ service.sid }}'); event.stopPropagation();">Delete</button>
+              {% endif %}
+            </div>
             {% endfor %}
           </div>
         </div>
@@ -243,23 +249,24 @@
 
     <!-- Popup Modal -->
     <div class="popup-overlay" id="popup">
-        <div class="popup-content">
-            <button class="close-btn" id="closePopup">&times;</button>
-            <div class="popup-header">Commission Title</div>
-            <div class="images">
-                <div class="box"></div>
-                <div class="box"></div>
-                <div class="box"></div>
+      <div class="popup-content">
+        <button class="close-btn" id="closePopup">&times;</button>
+        <div class="popup-header" id="popupTitle">Commission Title</div>
+        <div class="popup-main">
+          <!-- Left: Images -->
+          <div class="images" id="popupImages">
+            <img id="popupImage" class="commission-image" src="" alt="Popup Image" />
+          </div>
+    
+          <!-- Right: Description, price, button -->
+          <div class="popup-right">
+            <div class="popup-body" id="popupDescription">
+              Commission description and details
             </div>
-            <div class="popup-body">
-                <p>Commission description and details</p>
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-                    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                </p>
-                <a href="request.html" class="request-button">Request</a>
-            </div>
+            <a href="{{ url_for('request_page') }}" class="request-button">Request</a>
+          </div>
         </div>
+      </div>
     </div>
     <!-- Scripts -->
     <script>
@@ -303,41 +310,6 @@
     function closePortfolioModal() {
         document.getElementById("portfolioModal").style.display = "none";
     }
-
-    // document.getElementById("portfolioForm").addEventListener("submit", async function(e) {
-    //   e.preventDefault();
-    //   const formData = new FormData(this);
-      
-    //   try {
-    //     const response = await fetch("{{ url_for('add_portfolio') }}", {
-    //       method: "POST",
-    //       body: formData
-    //     });
-        
-    //     // Check if the content type is JSON
-    //     const contentType = response.headers.get("content-type");
-    //     let data;
-    //     if (contentType && contentType.indexOf("application/json") !== -1) {
-    //       data = await response.json();
-    //     } else {
-    //       // If not JSON, you can log the raw text to debug:
-    //       data = await response.text();
-    //       console.error("Expected JSON but got text:", data);
-    //     }
-        
-    //     if (response.ok) {
-    //       alert("Portfolio added successfully!");
-    //       closePortfolioModal();
-    //       this.reset();
-    //     } else {
-    //       console.error("Server error response:", data);
-    //       alert("Failed to add portfolio entry: " + (data.error || response.statusText));
-    //     }
-    //   } catch (err) {
-    //     console.error("Fetch error:", err);
-    //     alert("Failed to add portfolio entry due to a network or JavaScript error.");
-    //   }
-    // });
 
     function openServiceModal() {
     document.getElementById("serviceModal").style.display = "flex";
@@ -409,29 +381,6 @@
             alert('Failed to submit review: ' + error.message);
         });
     }
-    // document.getElementById("serviceForm").addEventListener("submit", async function (e) {
-    //     e.preventDefault();
-    //     const formData = new FormData(this);
-    //     try {
-    //         const response = await fetch("{{ url_for('add_service') }}", {
-    //         method: "POST",
-    //         body: formData,
-    //         });
-    //         if (response.ok) {
-    //         alert("Service added successfully!");
-    //         closeServiceModal();
-    //         this.reset();
-    //         } else {
-    //         // Log error message
-    //         const errorData = await response.json();
-    //         console.error("Error response:", errorData);
-    //         alert("Failed to add service: " + (errorData.error || response.statusText));
-    //         }
-    //     } catch (err) {
-    //         console.error("Fetch error:", err);
-    //         alert("Failed to add service due to network or JS error.");
-    //     }
-    // });
 
     function openPortfolioImageModal(imageUrl, title, description) {
         document.getElementById("expandedImage").src = imageUrl;
