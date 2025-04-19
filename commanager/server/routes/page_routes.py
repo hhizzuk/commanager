@@ -74,12 +74,53 @@ def setup_page_routes(app):
             return redirect(url_for('login'))
         if username != current_user:
             abort(403)
-        return render_template('orders.html', current_user=current_user)
+        user_data = supabase_admin.table('users') \
+            .select('uid', 'pfp', 'rating', 'bio', 'social_media_links', 'email') \
+            .eq('username', username).single().execute()
+        uid = user_data.data['uid']
+
+        client_orders = supabase_user.table('orders').select('*').eq('client_id', uid).execute().data or []
+        artist_orders = supabase_user.table('orders').select('*').eq('artist_id', uid).execute().data or []
+        pending_client_orders = []
+        in_progress_client_orders = []
+        completed_client_orders = []
+        pending_artist_orders = []
+        in_progress_artist_orders = []
+        completed_artist_orders = []
+
+        for order in client_orders:
+            status = order.get('status')
+            if status == 'pending':
+                pending_client_orders.append(order)
+            elif status == 'in_progress':
+                in_progress_client_orders.append(order)
+            elif status == 'completed':
+                completed_client_orders.append(order)
+
+        for order in artist_orders:
+            status = order.get('status')
+            if status == 'pending':
+                pending_artist_orders.append(order)
+            elif status == 'in_progress':
+                in_progress_artist_orders.append(order)
+            elif status == 'completed':
+                completed_artist_orders.append(order)
+        
+        context = {
+            "pending_client_orders": pending_client_orders,
+            "ip_client_orders": in_progress_client_orders,
+            "completed_client_orders": completed_client_orders,
+            "pending_artist_orders": pending_artist_orders,
+            "ip_artist_orders": in_progress_artist_orders,
+            "completed_artist_orders": completed_artist_orders
+        }
+        return render_template('orders.html', **context, current_user=current_user)
 
     @app.route('/payment')
     def payment():
         if not (current_user := get_authorized_user()):
             return redirect(url_for('login'))
+        
         return render_template('payment.html', current_user=current_user)
 
     @app.route('/request')
@@ -225,6 +266,7 @@ def setup_page_routes(app):
         except Exception as e:
             print(f"Error deleting review: {str(e)}")
             return jsonify({'error': str(e)}), 500
+    
     @app.route('/search')
     def search():
         if not (current_user := get_authorized_user()):
@@ -294,3 +336,68 @@ def setup_page_routes(app):
             username_matches=username_matches,
             search_query=search_query
         )
+    
+    @app.route('/accept_order', methods=['PUT'])
+    def accept_order():
+        try:
+            data = request.get_json()
+            order_id = data.get('order_id')
+            current_user_id = get_authorized_user() # i think this only gets username
+
+            if not current_user_id:
+                return jsonify({'error': 'Not authorized'}), 401
+
+            if not order_id:
+                return jsonify({'error': 'Missing order_id'}), 400
+
+            # Fetch the order using .single()
+            order_response = supabase_admin.table('orders').select('artist_id, status').eq('oid', order_id).single().execute()
+            order_data = order_response.data
+
+            if not order_data:
+                return jsonify({'error': 'Order not found'}), 404
+
+            if order_data['status'] != 'pending':
+                return jsonify({'error': f'Order is not pending. Current status: {order_data["status"]}'}), 400
+
+            # Update the order status to 'in_progress'
+            update_response = supabase_admin.table('orders').update({'status': 'in_progress'}).eq('oid', order_id).execute()
+
+            return jsonify({'success': True, 'message': f'Order {order_id} has been accepted and is now in progress'}), 200
+
+        except Exception as e:
+            print(f"Error accepting order: {str(e)}")
+            return jsonify({'error': str(e)}), 500
+                
+    @app.route('/decline_order', methods=['DELETE'])
+    def decline_order():
+        try:
+            data = request.get_json()
+            order_id = data.get('order_id')
+            current_user_id = get_authorized_user()
+
+            if not current_user_id:
+                return jsonify({'error': 'Not authorized'}), 401
+
+            if not order_id:
+                return jsonify({'error': 'Missing order_id'}), 400
+
+            # Fetch the order using .single()
+            order_response = supabase_admin.table('orders').select('artist_id, status').eq('oid', order_id).single().execute()
+
+            order_data = order_response.data
+
+            if not order_data:
+                return jsonify({'error': 'Order not found'}), 404
+
+            if order_data['status'] != 'pending':
+                return jsonify({'error': f'Order is not pending. Current status: {order_data["status"]}'}), 400
+
+            # Delete the order
+            delete_response = supabase_admin.table('orders').delete().eq('oid', order_id).execute()
+
+            return jsonify({'success': True, 'message': f'Order {order_id} has been declined and deleted'}), 200
+
+        except Exception as e:
+            print(f"Error declining order: {str(e)}")
+            return jsonify({'error': str(e)}), 500

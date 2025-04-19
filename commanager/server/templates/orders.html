@@ -25,6 +25,9 @@
             <div id="current" class="content-section active">
                 <h2>In Progress Orders</h2>
                 <p>Commissions that are currently still in progress.</p>
+                
+                <br>
+                <h3>Orders I've Placed</h3>
                 <div class="container">
                     <div class="main-content">
                         <div class="commission-card">
@@ -35,12 +38,40 @@
                                 Voluptas ullam consectetur ut, iusto unde est.
                             </div>
                         </div>
+
+                    {% for order in ip_client_orders %}
+                            <div class="commission-card">
+                                <img src="{{ order['img_url'] }}" alt="Order image" class="commission-image">
+                                <div class="commission-title">{{ order['title'] }}</div>
+                                <div class="description">
+                                    {{ order['description'] }}
+                                </div>
+                            </div>
+                    {% endfor %}
+                    </div>
+                </div>
+                
+                <h3>Orders For Me</h3>
+                <div class="container">
+                    <div class="main-content">
+                    {% for order in ip_artist_orders %}
+                            <div class="commission-card">
+                                <img src="{{ order['img_url'] }}" alt="Order image" class="commission-image">
+                                <div class="commission-title">{{ order['title'] }}</div>
+                                <div class="description">
+                                    {{ order['description'] }}
+                                </div>
+                            </div>
+                    {% endfor %}
                     </div>
                 </div>
             </div>
+
             <div id="past" class="content-section">
                 <h2>Past Orders</h2>
                 <p>Completed orders placed in the past.</p>
+                <br>
+                <h3>Orders I've Placed</h3>
                 <div class="container">
                     <div class="main-content">
                         <div class="commission-card">
@@ -51,12 +82,40 @@
                                 Voluptas ullam consectetur ut, iusto unde est.
                             </div>
                         </div>
+      
+                    {% for order in completed_client_orders %}
+                            <div class="commission-card">
+                                <img src="{{ order['img_url'] }}" alt="Order image" class="commission-image">
+                                <div class="commission-title">{{ order['title'] }}</div>
+                                <div class="description">
+                                    {{ order['description'] }}
+                                </div>
+                            </div>
+                    {% endfor %}
+                    </div>
+                </div>
+                
+                <h3>Orders For Me</h3>
+                <div class="container">
+                    <div class="main-content">
+                    {% for order in completed_artist_orders %}
+                            <div class="commission-card">
+                                <img src="{{ order['img_url'] }}" alt="Order image" class="commission-image">
+                                <div class="commission-title">{{ order['title'] }}</div>
+                                <div class="description">
+                                    {{ order['description'] }}
+                                </div>
+                            </div>
+                    {% endfor %}
                     </div>
                 </div>
             </div>
+
             <div id="pending" class="content-section">
                 <h2>Pending Orders</h2>
                 <p>Orders that still require the artist's confirmation.</p>
+                <br>
+                <h3>Orders I've Placed</h3>
                 <div class="container">
                     <div class="main-content">
                         <div class="commission-card">
@@ -67,6 +126,35 @@
                                 Voluptas ullam consectetur ut, iusto unde est.
                             </div>
                         </div>
+ 
+                    {% for order in pending_client_orders %}
+                        
+                            <div class="commission-card">
+                                <img src="{{ order['img_url'] }}" alt="Order image" class="commission-image">
+                                <div class="commission-title">{{ order['title'] }}</div>
+                                <div class="description">
+                                    {{ order['description'] }}
+                                </div>
+                            </div>
+                    {% endfor %}
+                    </div>
+                </div>
+                
+                <h3>Orders For Me</h3>
+                <div class="container">
+                    <div class="main-content">
+                    {% for order in pending_artist_orders %}
+                        
+                            <div class="commission-card">
+                                <img src="{{ order['img_url'] }}" alt="Order image" class="commission-image">
+                                <div class="commission-title">{{ order['title'] }}</div>
+                                <div class="description">
+                                    {{ order['description'] }}
+                                </div>
+                                <button class="accept-order-btn" onclick="acceptOrder('{{ order.oid }}')">Accept</button>
+                                <button class="decline-order-btn" onclick="declineOrder('{{ order.oid }}')">Decline</button>
+                            </div>
+                    {% endfor %}
                     </div>
                 </div>
             </div>
@@ -112,6 +200,54 @@
             });
     
             event.target.classList.add('active');
+        }
+
+        function declineOrder(order_id) {
+            if (!confirm('Are you sure you want to decline this order?')) {
+                return;
+            }
+    
+            fetch(`/decline_order`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ order_id: order_id })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) throw new Error(data.error);
+                alert('Order declined successfully!');
+                window.location.reload();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Failed to decline order: ' + error.message);
+            });
+        }
+       
+        function acceptOrder(order_id) {
+            if (!confirm('Are you sure you want to accept this order?')) {
+                return;
+            }
+    
+            fetch(`/accept_order`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ order_id: order_id })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) throw new Error(data.error);
+                alert('Order accepted successfully!');
+                window.location.reload();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Failed to accept order: ' + error.message);
+            });
         }
     </script>
 </body>

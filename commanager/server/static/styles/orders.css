@@ -1,10 +1,12 @@
 .main-container {
     display: flex;
     margin: 0;
-    height: calc(100vh - 97px);
+    flex-grow: 1;
+    min-height: calc(100vh - 97px);
 }
 
 .sidebar {
+    top: 0%;
     width: 250px;
     background: #333;
     color: white;
@@ -34,6 +36,16 @@
 }
 .content-section.active {
     display: block;
+}
+.Button {
+    background-color: #007bff;
+    color: white;
+    padding: 0.8rem;
+    border-radius: 4px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 1rem;
 }
 
 /* Hover Effect */
