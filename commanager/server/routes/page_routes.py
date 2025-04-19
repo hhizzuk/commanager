@@ -247,32 +247,45 @@ def setup_page_routes(app):
             .execute().data or []
 
         # 2. Search services by username
+        artist_user = "not_an_artist"
         services_by_artist = []
         if search_query in username_to_uid:
+            artist_user = search_query
             artist_uid = username_to_uid[search_query]
             services_by_artist = supabase_user.table('services') \
                 .select('*') \
                 .eq('uid', artist_uid) \
                 .execute().data or []
+        
+        # 3. Search services by price
+        price_search_query = ''.join(filter(str.isdigit, search_query))
+        services_by_price = []
+        if price_search_query:
+            search_price_int = int(price_search_query)
+            services_by_price = supabase_user.table('services') \
+                .select('*') \
+                .eq("price", search_price_int) \
+                .execute().data or []
 
         # Combine results, removing dupes
-        all_services = {service['sid']: service for service in services_by_content + services_by_artist}.values()
+        all_services = {service['sid']: service for service in services_by_content + services_by_artist + services_by_price}.values()
 
         # Add usernames to services
+        username_matches = []
         for service in all_services:
             service_uid = str(service['uid'])
             service['username'] = uid_to_username.get(service_uid, 'unknown')
 
         # 3. Get direct username matches for display
             username_matches = [
-            {
-                'uid': user['uid'],
-                'username': user['username'],
-                'pfp': user.get('pfp')  # Added here
-            } 
-            for user in users 
-            if search_query in user['username'].lower()
-        ]
+                {
+                    'uid': user['uid'],
+                    'username': user['username'],
+                    'pfp': user.get('pfp')  # Added here
+                } 
+                for user in users 
+                if artist_user in user['username'].lower()
+            ]
 
         return render_template(
             'home.html',
