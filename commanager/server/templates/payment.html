@@ -137,6 +137,7 @@
             // 2. Send data to payment processor
             // 3. Handle response
             alert('Payment processing would happen here in a real implementation');
+            window.location.href = "{{ url_for('user_orders', username=current_user) }}"; 
         });
 
         // PayPal button rendering (placeholder)
