@@ -190,9 +190,12 @@ def setup_page_routes(app):
             
             # Check if reviewer has ordered any of these services (using cid in orders table)
             has_ordered = False
-            if service_ids:
-                orders_response = supabase_admin.table('orders').select('*').eq('client_id', reviewer_uid).in_('cid', service_ids).execute()
-                has_ordered = bool(orders_response.data)
+            orders_response = supabase_admin.table('orders') \
+                .select('*') \
+                .eq('client_id', reviewer_uid) \
+                .eq('artist_id', reviewee_uid) \
+                .execute()
+            has_ordered = bool(orders_response.data)
 
             # Prepare review data
             review_data = {
